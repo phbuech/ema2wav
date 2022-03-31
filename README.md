@@ -36,13 +36,17 @@
   
   `output_directory`: this is the output directory for the processed wav files with audio and position data and csv files. Separate subfolders will be created for wav and csv files.
   
-  `ema_samplerate`: sample rate of the ema data in Hz, e.g. 1250.
+  `ema_samplerate`: sample rate of the ema data in Hz, e.g., 1250.
  
- 
-
-  1. `input_path`: this is the directory where the subfolder of your pos and wav data are located, defaults to input folder in project directory
-
-3. `channels`: the AG channels in your pos data. Format follows the sheme `parameter name : channel number`. For example:
+  `ema_channels`: number of channels in the EMA data, e.g., 16.
+  
+  `audio_input_directory`: input directory containing the audio (wav) files for the conversion.
+  
+  `audio_samplerate`: sample rate of the audio in Hz, e.g., 48000.
+  
+  `audio_channels`: number of channels in the audio file, e.g., 1.
+  
+  `channel_allocation`: the AG channels in your pos data. Format follows the sheme `parameter name : channel number`. For  example:
      ```
      "channels" : {
         "rear" : 1,
@@ -53,30 +57,27 @@
         "tbo1" : 6,
         "ttip" : 7,
         "ulip" : 8,
-        "llip" : 9,
-        "ch10" : 10,
-        "ch11" : 11,
-        "ch12" : 12,
-        "ch13" : 13,
-        "ch14" : 14,
-        "ch15" : 15,
-        "ch16" : 16
+        "llip" : 9
         }
-  4. `selected_params`: the parameters you want to include in the converted wav file. For example:
-      ```
-      "selected_params" : [
-            "tbo2-y",
-            "tbo2-x"
-      ]       
+     ```
+   `parameters_of_interest`: the parameters you want to include in the converted wav file. For example:
+   
+   ```
+     "parameters_of_interest": {
+        "0_ttip": "y",
+        "1_ttip": "y-vel",
+        "2_ttip": "tvel",
+        "3_ulip": "y",
+        "4_llip": "y",
+        "5_ulip+llip": "eucl"
+      }
+    ```
+  
+  `filter`: configure the filter to smooth the data:
+  
+      * `moving_average` to smooth the data with a rolling mean. Also specify window width, e.g., `"mean_filter" : 10` for a rolling mean with a window of 10 data points.
+      * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency, nyquist frequency and the order, e.g., `"filter" = { "butter_lowpass_filter" : [ 25.0, 4.0 ] }`
 
-  6. `raw_ema`: specify whether you would produce a converted wav file with raw ema (i.e., not interpolated and not scaled) in the converted wav file (true or false)
-  7. `audio_fs`: specify the audio sampling rate, e.g., `48000` for 48000 Hz
-  8. `export_csv`: specify wether pos data is also exported in a csv file (true or false)
-  9. `signal_filter`: configure the filter to smooth the data:
-
-      * `mean_filter` to smooth the data with a rolling mean. Also specify window width, e.g., `"mean_filter" : 10` for a rolling mean with a window of 10 data points
-      * `butter_lowpass_filter` to smooth the data using a butterworth filter. Also specify the cutoff frequency, nyquist frequency and the order, e.g., `"signal_filter" = { "butter_lowpass_filter" : [20,250/2,4] }`
-      
 
 * Run the module:
 
