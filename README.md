@@ -79,9 +79,7 @@
       * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency, nyquist frequency and the order, e.g., `"filter" = { "butter_lowpass_filter" : [ 25.0, 4.0 ] }`
 
 
-* Run the module:
 
-`jupyter notebook ema2wav_converter.ipynb`
 
 * Before running the conversion, make sure you place your data in the input folder (or change path in config file). Use a wav subdirectory for audio files and a pos subdirectoy for the EMA data.
 
