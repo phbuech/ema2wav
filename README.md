@@ -26,9 +26,23 @@
 
   The configuration of the converter contains the following parameters:
   
+  `include_audio`: true or false. Specifies whether the audio shall be included in the resulting wav file.
+  
+  `ema_device_info`: the model of the Carstens articulograph. So far, only AG50x possible. In future versions, older version will be supported.
+  
+  `export_to_csv`: true or false. Specifies whether the EMA data is exported in a separate csv file.
+ 
+  `export_raw_ema`: true or false. Specifies whether the EMA data is exported raw, i.e., not interpolated and not scaled.
+  
+  `output_directory`: this is the output directory for the processed wav files with audio and position data and csv files. Separate subfolders will be created for wav and csv files.
+  
+  `ema_samplerate`: sample rate of the ema data in Hz, e.g. 1250.
+ 
+ 
+
   1. `input_path`: this is the directory where the subfolder of your pos and wav data are located, defaults to input folder in project directory
-  2. `output_path`: this is the output directory for the processed wav files with audio and position data and csv files
-  3. `channels`: the AG channels in your pos data. Format follows the sheme `parameter name : channel number`. For example:
+
+3. `channels`: the AG channels in your pos data. Format follows the sheme `parameter name : channel number`. For example:
      ```
      "channels" : {
         "rear" : 1,
@@ -54,12 +68,12 @@
             "tbo2-y",
             "tbo2-x"
       ]       
-  5. `include_acoustics`: specify whether you would like to include the acoustic signal in the converted wav file (true or false)
+
   6. `raw_ema`: specify whether you would produce a converted wav file with raw ema (i.e., not interpolated and not scaled) in the converted wav file (true or false)
   7. `audio_fs`: specify the audio sampling rate, e.g., `48000` for 48000 Hz
   8. `export_csv`: specify wether pos data is also exported in a csv file (true or false)
   9. `signal_filter`: configure the filter to smooth the data:
- 
+
       * `mean_filter` to smooth the data with a rolling mean. Also specify window width, e.g., `"mean_filter" : 10` for a rolling mean with a window of 10 data points
       * `butter_lowpass_filter` to smooth the data using a butterworth filter. Also specify the cutoff frequency, nyquist frequency and the order, e.g., `"signal_filter" = { "butter_lowpass_filter" : [20,250/2,4] }`
       
