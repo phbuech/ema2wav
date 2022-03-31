@@ -269,13 +269,17 @@ def ema2wav_conversion(path_to_config_json):
     is_csv_export = json_config_data["export_to_csv"]
     is_raw_ema = json_config_data["export_raw_ema"]
 
+    # if output directory does not exist, create
+    if not os.path.exists(output_directory):
+        create_folder(output_directory)
+
     # create emawav output folder
-    emawav_path = output_directory + "emawav/"
+    emawav_path = output_directory + "/emawav/"
     create_folder(emawav_path)
     #create raw ema folder if necessary
-    emawav_raw_path = output_directory + "raw_ema/"
+    emawav_raw_path = output_directory + "/raw_ema/"
     if is_raw_ema: create_folder(emawav_raw_path)
-    emacsv_path = output_directory + "emacsv/"
+    emacsv_path = output_directory + "/emacsv/"
     if is_csv_export: create_folder(emacsv_path)
 
     # get list of files
@@ -310,8 +314,8 @@ def ema2wav_conversion(path_to_config_json):
         
         if include_audio == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
-            export_to_wav(output_file_path=output_directory+"emawav/emawav_"+wav_file_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
+            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+wav_file_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
         if is_raw_ema == True:
-            export_to_wav(output_file_path=output_directory+"raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_csv_export == True:
-            export_to_csv(path=output_directory+"emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters)
+            export_to_csv(path=output_directory+"/emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters)

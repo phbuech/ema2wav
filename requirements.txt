@@ -1,0 +1,6 @@
+numpy==1.22.2
+scipy==1.6.2
+librosa==0.8.1
+pandas==1.4.0
+mutagen==1.45.1
+PyQt5==5.15.6
