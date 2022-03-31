@@ -5,7 +5,7 @@
     "export_raw_ema": false,
     "output_directory": "output",
     "ema_input_directory": "input/pos/",
-    "ema_samplerate": 1250,
+    "ema_samplerate": 250,
     "ema_channels": 16,
     "audio_input_directory": "input/wav/",
     "audio_samplerate": 48000,
