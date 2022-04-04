@@ -2,6 +2,8 @@
 
 ### Installation instructions
 
+* Open the console (terminal)
+* Navigate to the directory where the files of the converter are located (project directory)
 * Create an environment for the converter. If you use anaconda, create the environment by the following code:
 
   `conda create --name ema_env python=3.9.7`
@@ -10,7 +12,7 @@
   
   If you do not use anaconda, create the environment with the venv module:
   
-  `python3 -m venv /path/to/new/virtual/environment`
+  `python3 -m venv name_of_your_environment`
 
 * Activate the environment. For anaconda, use this command:
   
@@ -22,8 +24,7 @@
   
   or for MacOS:
   
-  `name_of_your_environment/bin/activate`  
-  
+  `source name_of_your_environment/bin/activate`  
 
 * Install packages:
 
@@ -31,34 +32,45 @@
   
 ### Configuration by GUI
 
-Use this section, if you want to execute the conversion using the GUI.
+Use this section, if you want to configure and execute the conversion using the GUI.
 
 * Open the console
-* navigate to the directory where the files of the converter are located
+* Navigate to the directory where the files of the converter are located (project directory)
 * Run the following line to start the GUI:
   `python ema2wav_app.py`
 
-In order to start the conversion process, enter the following information into the GUI:
-* directories of the POS and WAVE files.
-  Press the `open EMA directory` and `open WAVE directory` buttons and selected the directories where the POS/WAVE files are located. Lists of these files and general informations will appear
-* Channel allocation.
-  Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
-* Paramteres of Interest.
-  Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. For a list of the possible parameters, see "Manual configuration", `paramters_of_interest`.
-* Enter filter type, if necessary.
-  Select a moving average filter with the number of samples corresponding to the window size, or a Butterworth low pass filter with the cutoff frequency and the order, or none
-* output directory.
-  Open the output directory by pressing the `open` button
-* Select export options.
-  The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
+* In order to start the conversion process, enter the following information into the GUI:
+  * Directories of the POS and WAVE files:
   
-Start the conversion by pressing the `convert` button. 
+    Press the `open EMA directory` and `open WAVE directory` buttons and selected the directories where the POS/WAVE files are located. Lists of these files and general informations will appear.
+  
+  * Channel allocation:
 
-If you want to replicate an earlier conversion, a configuration files can be loaded and all necessary information is entered into the GUI. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
+    Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
+  
+  * Parameters of Interest:
+
+    Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. For a list of the possible parameters, see "Manual configuration", `paramters_of_interest`.
+  
+  * Enter filter type:
+
+    Select a moving average filter with the number of samples corresponding to the window size, or a Butterworth low pass filter with the cutoff frequency and the order, or none if you do not wish to filter / smooth the data.
+  
+  * Output directory:
+ 
+    Select the output directory by pressing the `open` button.
+  
+  * Select export options:
+
+    The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
+  
+* Start the conversion by pressing the `convert` button. 
+
+* If you would like to replicate an earlier conversion, a configuration file can be loaded from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
   
 ### Manual configuration
 
-Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration.
+Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own python script (see below).
 
 * Edit configuration in the file `config.json` or create your own configuration file as json:
 
