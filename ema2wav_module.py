@@ -215,14 +215,14 @@ def export_to_wav(output_file_path,data,fs,s,incl_wav,raw_ema):
         if raw_ema == False:
             # Umrechnungen sind z.T. arbiträr und danach ausgewählt, wie sehr welche Parameter beim Anhören in Praat stören
             if "tvel-deriv" in list_of_params[i]:
-                ttmp = data[list_of_params[i]] / 100000
+                ttmp = data[list_of_params[i]] 
             elif "vel" in list_of_params[i]:
-                ttmp = data[list_of_params[i]] / 1000
+                ttmp = data[list_of_params[i]] 
             elif "-acc" in list_of_params[i]:
-                ttmp = data[list_of_params[i]] / 10000
+                ttmp = data[list_of_params[i]] 
             
             else:
-                ttmp = data[list_of_params[i]] / 100 
+                ttmp = data[list_of_params[i]]  
         else:
             ttmp = data[list_of_params[i]]
         tmp.append(ttmp)
