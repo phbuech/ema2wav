@@ -2,26 +2,59 @@
 
 ### Installation instructions
 
-* Install anaconda.
-
-* Open terminal, if necessary activate anaconda.
-
-* Change into project directory.
-
-* Create environment:
+* Create an environment for the converter. If you use anaconda, create the environment by the following code:
 
   `conda create --name ema_env python=3.9.7`
 
   Replace 3.9.7 by the python version you are working with.
+  
+  If you do not use anaconda, create the environment with the venv module:
+  
+  `python3 -m venv /path/to/new/virtual/environment`
 
-* Activate the environment:
-
-  `conda activate ema_env`
+* Activate the environment. For anaconda, use this command:
+  
+  `conda activate ema_env` 
+  
+  If you use the `venv` module, activate the environment by running this line for Windows:
+  
+  `name_of_your_environment\Scripts\activate.bat`
+  
+  or for MacOS:
+  
+  `name_of_your_environment/bin/activate`  
+  
 
 * Install packages:
 
   `pip3 install -r requirements.txt`
   
+### Configuration by GUI
+
+Use this section, if you want to execute the conversion using the GUI.
+
+* Open the console
+* navigate to the directory where the files of the converter are located
+* Run the following line to start the GUI:
+  `python ema2wav_app.py`
+
+In order to start the conversion process, enter the following information into the GUI:
+* directories of the POS and WAVE files.
+  Press the `open EMA directory` and `open WAVE directory` buttons and selected the directories where the POS/WAVE files are located. Lists of these files and general informations will appear
+* Channel allocation.
+  Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
+* Paramteres of Interest.
+  Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. For a list of the possible parameters, see "Manual configuration", `paramters_of_interest`.
+* Enter filter type, if necessary.
+  Select a moving average filter with the number of samples corresponding to the window size, or a Butterworth low pass filter with the cutoff frequency and the order, or none
+* output directory.
+  Open the output directory by pressing the `open` button
+* Select export options.
+  The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
+  
+Start the conversion by pressing the `convert` button. 
+
+If you want to replicate an earlier conversion, a configuration files can be loaded and all necessary information is entered into the GUI. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
   
 ### Manual configuration
 
@@ -111,8 +144,23 @@ import ema2wav_module as em
 config_file = "/path/to/your/config_file.json"
 em.ema2wav_conversion(config_file)
 ```
+## Praat tweaks
+The audio data and the POS data have different scales ([-1:1] for audio, higher scales for POS data) and this is also present in the WAVE files created by the conversion. As a result, audio or POS tracks can be difficult to identify and playing these files will lead to loud, uncomfortable noise, due to the higher scales of the POS data. In order to ensure a smooth experience when displaying and annotating the data in Praat, be sure to make the following changes in Praat's editor window:
+* Mute POS channels.
+  In the editor window, click on "View" and "Mute channels". Then select "ranges" for "channels to mute" and enter the channel numbers of the first and the last POS track
+* Modify scaling
+  In the editor window, click on "View" and "Sound scaling". Select "by window and channel" as "Scaling strategy"
 
 
+### TODO
+* Downsampling of WAVE files including the audio signal and the POS data
+* add a dropdown menu for the parameters of interest in the GUI
+* add a progress bar
+* create .exe and .dmg files
+
+### Acknowledgements
+
+This work has benefited/partially benefited from a government grant managed by the Agence Nationale de la Recherche under the "Investissements d'Avenir" programme with the reference ANR-10-LABX-0083 (contributing to the IdEx University of Paris - ANR-18-IDEX-0001, LABEX-EFL) and by the German Research Foundation (DFG) as part of the SFB1252 “Prominence in Language” (Project-ID 281511265), project A04 “Dynamic modelling of prosodic prominence” at the University of Cologne. 
 
 
 
