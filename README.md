@@ -4,7 +4,7 @@
 
 * Install anaconda.
 
-* Open Terminal, if necessary activate anaconda.
+* Open terminal, if necessary activate anaconda.
 
 * Change into project directory.
 
