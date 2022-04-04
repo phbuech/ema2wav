@@ -140,7 +140,7 @@ Use this section, if you code the configuration file yourself (for example by mo
   * You can only apply one filter
 
 
-### Executing the conversion
+### Executing the conversion from command line or as python module
 
 Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the project directory). Output will be saved in configured output folder.
 
