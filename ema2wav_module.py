@@ -233,10 +233,20 @@ def export_to_wav(output_file_path,data,fs,s,incl_wav,raw_ema):
     
     write_channels_to_metadata(output_file_path, list_of_params)
 
-def export_to_csv(path,data):
-    df = pd.DataFrame(columns=list(data.keys()))
-    for i in range(len(data)): df[list(data.keys())[i]] = data[list(data.keys())[i]]
-    df.to_csv(path,sep=",",index=False)
+""" exports the data to a csv file with a time column"""
+def export_to_csv(path, data, ema_fs):
+    data_frame = pd.DataFrame(columns = list(data.keys()))
+    for i in range(len(data)):
+        key = list(data.keys())[i]
+        data_frame[key] = data[key]
+
+    # set up time vector based on ema sampling rate (incremented by 1/ema_fs in each step)
+    # and write to csv
+    df_nrows = data_frame.index.stop
+    time = np.array([i*(1/ema_fs) for i in range(df_nrows)])
+    time = np.round(time, decimals = 3)
+    data_frame["time"] = time
+    data_frame.to_csv(path, sep=",", index = False)
 
 def ema2wav_conversion(path_to_config_json):
     # load config file
@@ -318,4 +328,4 @@ def ema2wav_conversion(path_to_config_json):
         if is_raw_ema == True:
             export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_csv_export == True:
-            export_to_csv(path=output_directory+"/emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters)
+            export_to_csv(path=output_directory+"/emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters, ema_fs=ema_fs)
