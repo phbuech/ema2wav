@@ -1,5 +1,7 @@
 # ema2wav-converter
 
+This code has been developed and tested using Python 3.9, we recommend using this version of Python.
+
 ### Installation instructions
 
 * Open the console (terminal)
