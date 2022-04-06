@@ -82,7 +82,7 @@ Use this section, if you code the configuration file yourself (for example by mo
   
   `ema_device_info`: string. the model of the Carstens articulograph. So far, only AG50x possible. In future versions, older version will be supported.
   
-  `export_to_csv`: boolean (true or false). Specifies whether the EMA data is exported in a separate csv file.
+  `export_to_csv`: boolean (true or false). Specifies whether the EMA data is exported in a separate csv file. The sampling rate of the csv file is the same as the EMA sampling rate.
  
   `export_raw_ema`: boolean (true or false). Specifies whether the EMA data is exported raw, i.e., not interpolated and not scaled.
   
