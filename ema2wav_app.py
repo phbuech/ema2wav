@@ -9,7 +9,7 @@ from PyQt5.uic import *
 import json
 from scipy.io import wavfile
 import numpy as np
-import ema2wav_module
+import ema2wav_core
 
 
 # function defintion
@@ -34,7 +34,7 @@ def open_EMA_directory():
             item = QStandardItem(i)
             model.appendRow(item)
 
-        ema_fs, ema_channels, ema_device = ema2wav_module.read_header(w.ema_directory_line_edit.text()+ema_files[0])
+        ema_fs, ema_channels, ema_device = ema2wav_core.read_header(w.ema_directory_line_edit.text()+ema_files[0])
         w.ema_device_info.setText(ema_device)
         w.ema_samplerate_info.setText(str(ema_fs)+" Hz")
         w.ema_channel_info.setText(str(ema_channels))
@@ -170,7 +170,7 @@ def collect_conversion_information():
     
 
     #output parameters
-    conversion_dict["include_audio"] = w.include_audio_checkbox.isChecked()
+    conversion_dict["export_audio+ema"] = w.export_audio_ema_checkbox.isChecked()
     conversion_dict["ema_device_info"] = w.ema_device_info.text()
     conversion_dict["export_to_csv"] = w.export_csv_checkbox.isChecked()
     conversion_dict["export_raw_ema"] = w.export_raw_ema_checkbox.isChecked()
@@ -183,7 +183,7 @@ def collect_conversion_information():
     conversion_dict["ema_channels"] = int(w.ema_channel_info.text())
 
     #get audio file input
-    if w.include_audio_checkbox.isChecked() == True:
+    if w.export_audio_ema_checkbox.isChecked() == True:
         conversion_dict["audio_input_directory"] = w.wave_directory_line_edit.text()
         conversion_dict["audio_samplerate"] = int(w.wave_samplerate_info.text().split(" ")[0])
         conversion_dict["audio_channels"] = int(w.wave_channel_info.text())
@@ -283,7 +283,7 @@ def conversion():
         config_output = open(w.output_dir_line_input.text()+"config.json","w")
         config_output.write(json_config)
         config_output.close()
-        ema2wav_module.ema2wav_conversion(w.output_dir_line_input.text()+"config.json")
+        ema2wav_core.ema2wav_conversion(w.output_dir_line_input.text()+"config.json")
         
 
 def load_config():
@@ -298,8 +298,8 @@ def load_config():
         config_data = json.load(config_file)
 
         keys = list(config_data.keys())
-        if "include_audio" in keys:
-            w.include_audio_checkbox.setChecked(config_data["include_audio"])
+        if "export_audio+ema" in keys:
+            w.export_audio_ema_checkbox.setChecked(config_data["export_audio+ema"])
         if "export_to_csv" in keys:
             w.export_csv_checkbox.setChecked(config_data["export_to_csv"])
         if "export_raw_ema" in keys:
