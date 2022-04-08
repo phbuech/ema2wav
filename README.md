@@ -2,7 +2,7 @@
 
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
 
-### Installation instructions
+1. Installation instructions
 
 * Open the console (terminal)
 * Navigate to the directory where the files of the converter are located (project directory)
