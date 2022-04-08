@@ -179,7 +179,6 @@ The audio data and the POS data have different scales ([-1:1] for audio, higher 
 
 ## 4. TODO
 
-* Downsampling of WAVE files including the audio signal and the POS data
 * add a dropdown menu for the parameters of interest in the GUI
 * add a progress bar
 * create .exe and .dmg files
