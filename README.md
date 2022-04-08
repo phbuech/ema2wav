@@ -90,7 +90,7 @@ Use this section, if you code the configuration file yourself (for example by mo
 
   The configuration of the converter contains the following parameters:
   
-  `export_audio_ema`: boolean (true or false). Specifies whether the audio shall be included in the resulting wav file.
+  `export_audio+ema`: boolean (true or false). Specifies whether the audio shall be included in the resulting wav file. If true, the resulting file includes the audio. If false, the resulting file only contains the EMA data.
   
   `ema_device_info`: string. the model of the Carstens articulograph. So far, only AG50x possible. In future versions, older version will be supported.
   
