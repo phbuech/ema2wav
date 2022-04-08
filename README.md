@@ -1,8 +1,11 @@
 # ema2wav-converter
 
+*ema2wav* is a tool for converting data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converteid either by executing a standalone Pythons script or by using a user-friendly GUI (see 2.). The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat.
+
+
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
 
-1. Installation instructions
+## 1. Installation instructions
 
 * Open the console (terminal)
 * Navigate to the directory where the files of the converter are located (project directory)
@@ -32,7 +35,8 @@ This code has been developed and tested using Python 3.9, we recommend using thi
 
   `pip3 install -r requirements.txt`
   
-### Configuration by GUI
+## 2. Usage
+### 2.1 Configuration by GUI
 
 Use this section, if you want to configure and execute the conversion using the GUI.
 
@@ -78,7 +82,7 @@ Use this section, if you code the configuration file yourself (for example by mo
 
   The configuration of the converter contains the following parameters:
   
-  `include_audio`: boolean (true or false). Specifies whether the audio shall be included in the resulting wav file.
+  `export_audio_ema`: boolean (true or false). Specifies whether the audio shall be included in the resulting wav file.
   
   `ema_device_info`: string. the model of the Carstens articulograph. So far, only AG50x possible. In future versions, older version will be supported.
   
@@ -142,17 +146,17 @@ Use this section, if you code the configuration file yourself (for example by mo
   * You can only apply one filter
 
 
-### Executing the conversion from command line or as python module
+### 2.2 Executing the conversion from command line or as python module
 
 Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the project directory). Output will be saved in configured output folder.
 
-#### From command line
+### 2.3 From command line
 
 Run the conversion from the command line by calling the convert.py script. This command takes one argument, namely the path to the configuration file. For example, when your config file is config.json in the project directory, run the following in the command line:
 
 ```python3 convert.py config.json```
 
-#### Import as python module
+### 2.4 Import as python module
 
 You can import the converter as a python module and then call the conversion with a configuration file:
 
@@ -162,7 +166,7 @@ config_file = "/path/to/your/config_file.json"
 em.ema2wav_conversion(config_file)
 ```
 
-## Praat tweaks
+## 3. Praat tweaks
 
 The audio data and the POS data have different scales ([-1:1] for audio, higher scales for POS data) and this is also present in the WAVE files created by the conversion. As a result, audio or POS tracks can be difficult to identify and playing these files will lead to loud, uncomfortable noise, due to the higher scales of the POS data. In order to ensure a smooth experience when displaying and annotating the data in Praat, be sure to make the following changes in Praat's editor window:
 
@@ -173,14 +177,14 @@ The audio data and the POS data have different scales ([-1:1] for audio, higher 
   In the editor window, click on "View" and "Sound scaling". Select "by window and channel" as "Scaling strategy"
 
 
-### TODO
+## 4. TODO
 
 * Downsampling of WAVE files including the audio signal and the POS data
 * add a dropdown menu for the parameters of interest in the GUI
 * add a progress bar
 * create .exe and .dmg files
 
-### Acknowledgements
+## 5. Acknowledgements
 
 This work has benefited/partially benefited from a government grant managed by the Agence Nationale de la Recherche under the "Investissements d'Avenir" programme with the reference ANR-10-LABX-0083 (contributing to the IdEx University of Paris - ANR-18-IDEX-0001, LABEX-EFL) and by the German Research Foundation (DFG) as part of the SFB1252 “Prominence in Language” (Project-ID 281511265), project A04 “Dynamic modelling of prosodic prominence” at the University of Cologne. 
 
