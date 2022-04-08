@@ -49,7 +49,7 @@ Use this section, if you want to configure and execute the conversion using the 
 * Open the console
 * Navigate to the directory where the files of the converter are located (project directory)
 * Run the following line to start the GUI:
-  `python ema2wav_app.py`
+  `python3 ema2wav_app.py`
 
 * In order to start the conversion process, enter the following information into the GUI:
   * Directories of the POS and WAVE files:
@@ -82,7 +82,7 @@ Use this section, if you want to configure and execute the conversion using the 
   
 ### Manual configuration
 
-Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own python script (see below).
+Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own Python script (see below).
 
 * Edit configuration in the file `config.json` or create your own configuration file as json:
 
@@ -152,19 +152,19 @@ Use this section, if you code the configuration file yourself (for example by mo
   * You can only apply one filter
 
 
-### 2.2 Executing the conversion from command line or as python module
+### 2.2 Executing the conversion from command line or as Python module
 
 Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the project directory). Output will be saved in configured output folder.
 
-### 2.3 From command line
+#### 2.2.1 From command line
 
 Run the conversion from the command line by calling the convert.py script. This command takes one argument, namely the path to the configuration file. For example, when your config file is config.json in the project directory, run the following in the command line:
 
 ```python3 convert.py config.json```
 
-### 2.4 Import as python module
+#### 2.2.2 Import as Python module
 
-You can import the converter as a python module and then call the conversion with a configuration file:
+You can import the converter as a Python module and then call the conversion with a configuration file:
 
 ```
 import ema2wav_module as em
