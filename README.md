@@ -2,6 +2,10 @@
 
 *ema2wav* is a tool for converting data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converteid either by executing a standalone Pythons script or by using a user-friendly GUI (see 2.). The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat.
 
+Three export options are available:
+* wav file containing the audio signal and the EMA data (sampled to 16 kHz)
+* wav file containing the EMA data only (samplerate of the EMA data)
+* CSV file containing the EMA data (samplerate of the EMA daata)
 
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
 
