@@ -23,7 +23,7 @@ This code has been developed and tested using Python 3.9, we recommend using thi
   
   If you do not use anaconda, create the environment with the venv module:
   
-  `python3 -m venv name_of_your_environment`
+  `python3 -m venv ema_env`
 
 * Activate the environment. For anaconda, use this command:
   
@@ -31,11 +31,11 @@ This code has been developed and tested using Python 3.9, we recommend using thi
   
   If you use the `venv` module, activate the environment by running this line for Windows:
   
-  `name_of_your_environment\Scripts\activate.bat`
+  `ema_env\Scripts\activate.bat`
   
   or for MacOS:
   
-  `source name_of_your_environment/bin/activate`  
+  `source ema_env/bin/activate`  
 
 * Install packages:
 
