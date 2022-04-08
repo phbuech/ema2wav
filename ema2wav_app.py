@@ -401,7 +401,11 @@ def load_config():
 
 
 app = QApplication(sys.argv)
-w = loadUi("ema2wav_gui.ui")
+
+bundle_dir = getattr(sys, '_MEIPASS',
+os.path.abspath(os.path.dirname(__file__)))
+path_to_ui = os.path.abspath(os.path.join(bundle_dir, 'ema2wav_gui.ui'))
+w = loadUi(path_to_ui)
 
 
 #initialize file list
