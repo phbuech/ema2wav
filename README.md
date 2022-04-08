@@ -10,7 +10,7 @@ Three export options are available:
 The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
 
 We added executable files so you can run the converter in its GUI-version as every application on your computer:
-* For macOS, download the dmg `ema2wav_app.dmg` in the `bin` subdirectory of this project. Copy the application to your applications folder or two another location and open it by double-clicking on the icon.
+* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click "Open" in this dialog and the app will open.
 
 After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
 
