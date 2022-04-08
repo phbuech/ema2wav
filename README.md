@@ -14,6 +14,8 @@ We added executable files so you can run the converter in its GUI-version as eve
 
 After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
 
+*Note: in a prior version of the code we used a few more third-party libraries (such as librosa and pandas). We are continuously developing the code and try to reduce dependencies where possible to increase maintainability.*
+
 ## 1. Installation instructions
 
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
