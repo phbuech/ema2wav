@@ -289,7 +289,7 @@ def ema2wav_conversion(path_to_config_json):
     wav_file_list = get_file_list(audio_input_directory,"audio")
     
     # get device information
-    ema_fs, ema_num_of_channels, ema_device = read_header(ema_input_directory+ema_file_list[0])
+    ema_fs, ema_num_of_channels, ema_device = read_header(ema_input_directory+"/"+ema_file_list[0])
 
     # adjust sample order
     if ema_device == "AG50x":
@@ -299,7 +299,7 @@ def ema2wav_conversion(path_to_config_json):
     for file_idx in range(len(ema_file_list)):
 
         # read wave file
-        wav_fs, wav_data = wavfile.read(audio_input_directory+wav_file_list[file_idx])
+        wav_fs, wav_data = wavfile.read(audio_input_directory+"/"+wav_file_list[file_idx])
 
         # normalize audio
         # the normalized audio will be stored as 32 bit floats (same as ema data))
@@ -309,7 +309,7 @@ def ema2wav_conversion(path_to_config_json):
         
         
         # read ema file
-        ema_fs, ema_num_of_channels, ema_data = read_pos_file(ema_input_directory+ema_file_list[file_idx])
+        ema_fs, ema_num_of_channels, ema_data = read_pos_file(ema_input_directory+"/"+ema_file_list[file_idx])
         extracted_ema_data = extract_ema_data(data=ema_data, ema_channels=ema_channels, sample_order=sample_order)
 
         #apply filter (if any)

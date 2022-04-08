@@ -1,5 +1,5 @@
 {
-    "include_audio": true,
+    "export_audio+ema": true,
     "ema_device_info": "AG50x",
     "export_to_csv": true,
     "export_raw_ema": false,
