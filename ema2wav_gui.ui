@@ -632,9 +632,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_25">
          <item>
-          <widget class="QCheckBox" name="include_audio_checkbox">
+          <widget class="QCheckBox" name="export_audio_ema_checkbox">
            <property name="text">
-            <string>include audio</string>
+            <string>export audio+EMA</string>
            </property>
            <property name="checked">
             <bool>true</bool>
