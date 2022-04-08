@@ -12,6 +12,8 @@ The converter works with data from the AG500/501 models of [Carstens Medizinelek
 We added executable files so you can run the converter in its GUI-version as every application on your computer:
 * For macOS, download the dmg `ema2wav_app.dmg` in the `bin` subdirectory of this project. Copy the application to your applications folder or two another location and open it by double-clicking on the icon.
 
+After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
+
 ## 1. Installation instructions
 
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
