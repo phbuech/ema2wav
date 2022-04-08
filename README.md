@@ -1,6 +1,6 @@
 # ema2wav-converter
 
-*ema2wav* is a tool for converting data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converteid either by executing a standalone Pythons script or by using a user-friendly GUI (see 2.). The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat.
+*ema2wav* is a tool for converting data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converteid either by executing a standalone Pythons script or by using a user-friendly GUI. The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat as this section presents some useful tips for good user experience with the data in Praat.
 
 Three export options are available:
 * wav file containing the audio signal and the EMA data (sampled to 16 kHz)
@@ -9,12 +9,15 @@ Three export options are available:
 
 The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
 
-This code has been developed and tested using Python 3.9, we recommend using this version of Python.
+We added executable files so you can run the converter in its GUI-version as every application on your computer:
+* For macOS, download the dmg `ema2wav_app.dmg` in the `bin` subdirectory of this project. Copy the application to your applications folder or two another location and open it by double-clicking on the icon.
 
 ## 1. Installation instructions
 
+This code has been developed and tested using Python 3.9, we recommend using this version of Python.
+
 * Open the console (terminal)
-* Navigate to the directory where the files of the converter are located (project directory)
+* Navigate to the top level of the project directory.
 * Create an environment for the converter. If you use anaconda, create the environment by the following code:
 
   `conda create --name ema_env python=3.9.7`
@@ -47,7 +50,7 @@ This code has been developed and tested using Python 3.9, we recommend using thi
 Use this section, if you want to configure and execute the conversion using the GUI.
 
 * Open the console
-* Navigate to the directory where the files of the converter are located (project directory)
+* Navigate to the `src` subdirectory of the project. That is where the source code is located.
 * Run the following line to start the GUI:
   `python3 ema2wav_app.py`
 
@@ -156,11 +159,11 @@ Use this section, if you code the configuration file yourself (for example by mo
 
 ### 2.2 Executing the conversion from command line or as Python module
 
-Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the project directory). Output will be saved in configured output folder.
+Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the `demo_data` subdirectory of the project directory). Output will be saved in configured output folder.
 
 #### 2.2.1 From command line
 
-Run the conversion from the command line by calling the convert.py script. This command takes one argument, namely the path to the configuration file. For example, when your config file is config.json in the project directory, run the following in the command line:
+cd to the `src` subdirectory of the project. Run the conversion from the command line by calling the convert.py script. This command takes one argument, namely the path to the configuration file. For example, when your config file is config.json in the `src` project directory, run the following in the command line:
 
 ```python3 convert.py config.json```
 
