@@ -1,6 +1,6 @@
 import sys
 import os
-import ema2wav_module as em
+import ema2wav_core as em
 
 config_file = sys.argv[1]
 dir_name = os.path.dirname(__file__)
