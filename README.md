@@ -78,7 +78,9 @@ Use this section, if you want to configure and execute the conversion using the 
   
 * Start the conversion by pressing the `convert` button. 
 
-* If you would like to replicate an earlier conversion, a configuration file can be loaded from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
+* Output is produced in the selected output folder. The converted ema2wav files are in the subdirectory called `emawav`. 
+
+* You will also find that a configuration file called `config.json` is created in the output folder. In this file, the configuration produced by the GUI is saved. If you would like to replicate an earlier conversion, you can load this configuration file or a different one from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
   
 ### Manual configuration
 
