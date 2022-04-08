@@ -7,6 +7,8 @@ Three export options are available:
 * wav file containing the EMA data only (samplerate of the EMA data)
 * CSV file containing the EMA data (samplerate of the EMA daata)
 
+The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
+
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
 
 ## 1. Installation instructions
@@ -186,6 +188,7 @@ The audio data and the POS data have different scales ([-1:1] for audio, higher 
 * add a dropdown menu for the parameters of interest in the GUI
 * add a progress bar
 * create .exe and .dmg files
+* extension to convert also data from the AG100/200 models of Carstens Medizinelektronik GmbH
 
 ## 5. Acknowledgements
 
