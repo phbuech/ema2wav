@@ -1,6 +1,6 @@
 # ema2wav-converter
 
-*ema2wav* is a tool for converting data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converteid either by executing a standalone Pythons script or by using a user-friendly GUI. The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat as this section presents some useful tips for good user experience with the data in Praat.
+*ema2wav* is a tool for the conversion of data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converted either from the command line, by executing a standalone Pythons script or by using a user-friendly GUI. The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat as this section presents some useful tips for good user experience with the data in Praat.
 
 Three export options are available:
 * wav file containing the audio signal and the EMA data (sampled to 16 kHz)
@@ -10,7 +10,7 @@ Three export options are available:
 The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
 
 We added executable files so you can run the converter in its GUI-version as every application on your computer:
-* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click "Open" in this dialog and the app will open.
+* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you try to open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click again "Open" in this dialog and the app will open.
 
 After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
 
@@ -51,7 +51,7 @@ This code has been developed and tested using Python 3.9, we recommend using thi
 ## 2. Usage
 ### 2.1 Configuration by GUI
 
-Use this section, if you want to configure and execute the conversion using the GUI.
+Use this section, if you want to configure and execute the conversion using the GUI. You can start the GUI by using the executable files in the `bin` subdirectory of this project or by starting the GUI from the command line. The steps to start the GUI from the command line are documented here:
 
 * Open the console
 * Navigate to the `src` subdirectory of the project. That is where the source code is located.
@@ -89,7 +89,7 @@ Use this section, if you want to configure and execute the conversion using the 
 
 * You will also find that a configuration file called `config.json` is created in the output folder. In this file, the configuration produced by the GUI is saved. If you would like to replicate an earlier conversion, you can load this configuration file or a different one from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
   
-### Manual configuration
+### 2.2 Manual configuration
 
 Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own Python script (see below).
 
@@ -161,7 +161,9 @@ Use this section, if you code the configuration file yourself (for example by mo
   * You can only apply one filter
 
 
-### 2.2 Executing the conversion from command line or as Python module
+### 2.3 Executing the conversion from command line or as Python module
+
+If you have a config file ready, you can start the conversion from the command line or import the core script as a Python module in your custom code. This section describes these two possibilities. 
 
 Before running the conversion, make sure you placed your data in the input folders specified in the config (e.g., the demo input folder inside the `demo_data` subdirectory of the project directory). Output will be saved in configured output folder.
 
@@ -176,9 +178,9 @@ cd to the `src` subdirectory of the project. Run the conversion from the command
 You can import the converter as a Python module and then call the conversion with a configuration file:
 
 ```
-import ema2wav_module as em
+import ema2wav_core as ec
 config_file = "/path/to/your/config_file.json"
-em.ema2wav_conversion(config_file)
+ec.ema2wav_conversion(config_file)
 ```
 
 ## 3. Praat tweaks
