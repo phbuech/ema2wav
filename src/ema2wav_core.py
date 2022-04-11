@@ -156,18 +156,34 @@ def extract_parameters_of_interest(data,poi,ema_fs):
                 ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = derivation(data=tvel,ema_fs=ema_fs,order=1)
 
         elif len(list_of_poi[i].split("+")) == 2:
+
+            # euclidean distance between two sensors
             if poi[list_of_poi[i]] == "eucl":
-                # get articulators
-                articulators = list_of_poi[i].split("_")[1]
-                articulator1, articulator2 = articulators.split("+")
-                articulator1_x = data[articulator1+"_x"]
-                articulator1_y = data[articulator1+"_y"]
-                articulator2_x = data[articulator2+"_x"]
-                articulator2_y = data[articulator2+"_y"]
-                ext_param_data[list_of_poi[i]] = np.array([np.sqrt((articulator1_x[j]-articulator2_x[j])**2+(articulator1_y[j]-articulator2_y[j])**2) for j in range(len(articulator1_x))] )
-                
-        
+                ext_param_data[list_of_poi[i]] = calculate_euclidean_distance(list_of_poi[i], data)
+
+            # velocity of euclidean distance between two sensors
+            elif poi[list_of_poi[i]] == "eucl-vel":
+                ext_param_data[list_of_poi[i]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 1)
+            
+            # acceleration of euclidean distance between two sensors
+            elif poi[list_of_poi[i]] == "eucl-acc":
+                ext_param_data[list_of_poi[i]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 2)
+
     return ext_param_data
+
+def calculate_euclidean_distance(parameter_of_interest, data):
+    articulators = parameter_of_interest.split("_")[1]
+    articulator1, articulator2 = articulators.split("+")
+    articulator1_x = data[articulator1+"_x"]
+    articulator1_y = data[articulator1+"_y"]
+    articulator2_x = data[articulator2+"_x"]
+    articulator2_y = data[articulator2+"_y"]
+    return np.array([np.sqrt((articulator1_x[j]-articulator2_x[j])**2+(articulator1_y[j]-articulator2_y[j])**2) for j in range(len(articulator1_x))] )
+
+def get_eucl_derivative(parameter_of_interest, data, ema_fs, order):
+    eucl = calculate_euclidean_distance(parameter_of_interest, data)
+    eucl_deriv = derivation(data = eucl, ema_fs = ema_fs, order = order)
+    return(eucl_deriv)
 
 def interpolate_data(data,s,wav_fs,ema_fs):
     interpolated_data = {}
