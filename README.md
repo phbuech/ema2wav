@@ -1,6 +1,6 @@
 # ema2wav-converter
 
-*ema2wav* is a tool for the conversion of data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converted either from the command line, by executing a standalone Pythons script or by using a user-friendly GUI. The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat as this section presents some useful tips for good user experience with the data in Praat.
+*ema2wav* is a tool for the conversion of data from electromagnetic articulography (EMA) into multi-channel wav files. The EMA data can be converted either from the command line, by executing a standalone Python script or by using a user-friendly GUI. The wav files can be opened in programs like [Praat](https://www.fon.hum.uva.nl/praat/) for further processing (display, annotation, measurements). Please read 3. before you use the files in Praat as this section presents some useful tips for good user experience with the data in Praat.
 
 Three export options are available:
 * wav file containing the audio signal and the EMA data (sampled to 16 kHz)
@@ -10,7 +10,7 @@ Three export options are available:
 The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
 
 We added executable files so you can run the converter in its GUI-version as every application on your computer:
-* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you try to open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click again "Open" in this dialog and the app will open.
+* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you try to open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click again "Open" in this dialog and the app will open. Read about it in the [official macOS documentation](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15).
 
 After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
 
