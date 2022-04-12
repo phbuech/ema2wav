@@ -10,7 +10,7 @@ Three export options are available:
 The converter works with data from the AG500/501 models of [Carstens Medizinelektronik GmbH](https://www.articulograph.de/) at the moment.
 
 We added executable files so you can run the converter in its GUI-version as every application on your computer:
-* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you try to open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click again "Open" in this dialog and the app will open. Read about it in the [official macOS documentation](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15).
+* For macOS, download the zip `ema2wav_app_macos.zip` in the `bin` subdirectory of this project. Unzip the archive. You will find the file `ema2wav_app.app` inside. This is the app. **Important**: Since this is work under development and not signed, Mac will not open the app on double click the first time you try to open it. **Simple fix**: Hold ctrl down while clicking on the app (or right click). Choose "Open" from the context menu. A dialog will appear, click again "Open" in this dialog and the app will open. Read about it in the [official macOS documentation](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15). The first time, you try to open the app using this method, you may only see a dialog stating that the app cannot be opened. Try a second time, and the method will work, see [here](https://news.ycombinator.com/item?id=24219099). You only need to apply the outlined method once, the app will then open on double-click. 
 
 After starting the application, you will see a GUI for the configuration of the conversion. Read about it in section 2.1 of this guide.
 
@@ -140,7 +140,9 @@ Use this section, if you code the configuration file yourself (for example by mo
    * "-acc" chooses the acceleration (2st derivative), e.g., "y-acc" chooses the acceleration of the vertical dimension.
    * "tvel" chooses the tangential velocity of the parameter.
    * "tvel-deriv" chooses the first derivative of the tangential velocity of the parameter.
-   * "eucl" chooses the euclidean distance of the sensors. In this case, you need to specify two channels, e.g. "5_ulip+llip".
+   * "eucl" chooses the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip".
+   * "eucl-vel" chooses the velocity of the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip-vel".
+   * "eucl-acc" chooses the acceleration of the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip-acc".
    
    An example:
    
@@ -151,7 +153,8 @@ Use this section, if you code the configuration file yourself (for example by mo
         "2_ttip": "tvel",
         "3_ulip": "y",
         "4_llip": "y",
-        "5_ulip+llip": "eucl"
+        "5_ulip+llip": "eucl",
+        "6_ulip+llip": "eucl-vel"       
       }
     ```
   
