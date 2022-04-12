@@ -159,15 +159,15 @@ def extract_parameters_of_interest(data,poi,ema_fs):
 
             # euclidean distance between two sensors
             if poi[list_of_poi[i]] == "eucl":
-                ext_param_data[list_of_poi[i]] = calculate_euclidean_distance(list_of_poi[i], data)
+                ext_param_data[list_of_poi[i] + "_" + poi[list_of_poi[i]]] = calculate_euclidean_distance(list_of_poi[i], data)
 
             # velocity of euclidean distance between two sensors
             elif poi[list_of_poi[i]] == "eucl-vel":
-                ext_param_data[list_of_poi[i]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 1)
+                ext_param_data[list_of_poi[i] + "_" + poi[list_of_poi[i]]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 1)
             
             # acceleration of euclidean distance between two sensors
             elif poi[list_of_poi[i]] == "eucl-acc":
-                ext_param_data[list_of_poi[i]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 2)
+                ext_param_data[list_of_poi[i]+ "_" + poi[list_of_poi[i]]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 2)
 
     return ext_param_data
 
