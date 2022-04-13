@@ -109,7 +109,7 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>EMA samplerate:</string>
+            <string>EMA sample rate:</string>
            </property>
           </widget>
          </item>
@@ -127,7 +127,7 @@
          <item>
           <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>EMA Channels:</string>
+            <string>EMA channels:</string>
            </property>
           </widget>
          </item>
@@ -221,7 +221,7 @@
          <item>
           <widget class="QLabel" name="label_9">
            <property name="text">
-            <string>WAVE samplerate:</string>
+            <string>WAVE sample rate:</string>
            </property>
           </widget>
          </item>
@@ -239,7 +239,7 @@
          <item>
           <widget class="QLabel" name="label_10">
            <property name="text">
-            <string>WAVE Channels:</string>
+            <string>WAVE channels:</string>
            </property>
           </widget>
          </item>
@@ -338,7 +338,7 @@
        <item>
         <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Parameters of Interest</string>
+          <string>Parameters of interest</string>
          </property>
         </widget>
        </item>
@@ -389,7 +389,7 @@
        <item>
         <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>EMA filterting</string>
+          <string>EMA filtering</string>
          </property>
         </widget>
        </item>
@@ -461,7 +461,7 @@
        <item>
         <widget class="QRadioButton" name="butter_lp_btn">
          <property name="text">
-          <string>Butterworth Low Pass Filter</string>
+          <string>Butterworth low pass filter</string>
          </property>
         </widget>
        </item>
