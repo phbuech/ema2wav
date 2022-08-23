@@ -40,6 +40,14 @@ def get_file_list(input_path, data_type):
     files.sort()
     return files
 
+def get_common_files(wav_files, ema_files):
+
+    #remove file suffix
+    tmp_wav_files = np.array([wav_files[i].replace(".wav","") for i in range(len(wav_files))])
+    tmp_ema_files = np.array([ema_files[i].replace(".pos","") for i in range(len(ema_files))])
+
+    return np.intersect1d(tmp_wav_files,tmp_ema_files)
+
 def read_pos_file(path_to_pos_file):
     #read file
     pos_file = open(path_to_pos_file,mode="rb")
@@ -307,15 +315,17 @@ def ema2wav_conversion(path_to_config_json):
     # get device information
     ema_fs, ema_num_of_channels, ema_device = read_header(ema_input_directory+"/"+ema_file_list[0])
 
+    common_files_list = get_common_files(wav_files=wav_file_list,ema_files=ema_file_list)
+    
     # adjust sample order
     if ema_device == "AG50x":
         sample_order = {"x" : 0, "z" : 1, "y" : 2, "phi" : 3, "t" : 4, "rms" : 5, "extra" : 6}
 
     # convert each ema file
-    for file_idx in range(len(ema_file_list)):
+    for file_idx in range(len(common_files_list)):
 
         # read wave file
-        wav_fs, wav_data = wavfile.read(audio_input_directory+"/"+wav_file_list[file_idx])
+        wav_fs, wav_data = wavfile.read(audio_input_directory+"/"+common_files_list[file_idx]+".wav")
 
         # normalize audio
         # the normalized audio will be stored as 32 bit floats (same as ema data))
@@ -325,7 +335,7 @@ def ema2wav_conversion(path_to_config_json):
         
         
         # read ema file
-        ema_fs, ema_num_of_channels, ema_data = read_pos_file(ema_input_directory+"/"+ema_file_list[file_idx])
+        ema_fs, ema_num_of_channels, ema_data = read_pos_file(ema_input_directory+"/"+common_files_list[file_idx]+".pos")
         extracted_ema_data = extract_ema_data(data=ema_data, ema_channels=ema_channels, sample_order=sample_order)
 
         #apply filter (if any)
