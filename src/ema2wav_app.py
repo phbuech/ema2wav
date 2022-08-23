@@ -446,7 +446,7 @@ def load_config():
                 w.channel_table.setCellWidget(i,1,comboBox)
                 w.channel_table.cellWidget(i,1).setCurrentIndex(config_data["channel_allocation"][tmp_keys[i]]-1)
                 
-                #w.channel_table.setItem(i,1,QTableWidgetItem(str(tmp[tmp_keys[i]])))    
+                    
         if "parameters_of_interest" in keys:
             #clear parameter table
             while (w.parameter_table.rowCount() > 0):
@@ -463,7 +463,7 @@ def load_config():
                         if channel_names[j] != channel_names[jj] and channel_names[jj]+"+"+channel_names[j] not in channel_names:
                             channel_names.append(channel_names[j]+"+"+channel_names[jj])
                 
-                print(channel_names)
+                
                 channel_name_comboBox = QComboBox()
                 for j in range(len(channel_names)): channel_name_comboBox.addItem(str(channel_names[j]))
                 w.parameter_table.setCellWidget(i,0,channel_name_comboBox)
