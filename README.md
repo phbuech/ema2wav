@@ -216,10 +216,9 @@ The audio data and the POS data have different scales ([-1:1] for audio, higher 
 
 ## 4. TODO
 
-* add a dropdown menu for the parameters of interest in the GUI
 * add a progress bar
-* create .exe and .dmg files
-* extension to convert also data from the AG100/200 models of Carstens Medizinelektronik GmbH
+* create .exe files
+* extension to convert also data from the AG100/200 models of Carstens Medizinelektronik GmbH & NDI WAVE
 
 ## 5. Acknowledgements
 
