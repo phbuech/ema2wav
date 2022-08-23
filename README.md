@@ -84,9 +84,12 @@ Use this section, if you want to configure and execute the conversion using the 
   * Select export options:
 
     The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
-  
-![Alt text](screenshots/ema2wav_gui_example.png?raw=true "Screenshot of the ema2wav GUI")
-<p align="center">Figure 1. Screenshot of the ema2wav GUI.</p>
+
+<p align="center">  
+  <img src="https://github.com/phbuech/ema2wav/tree/main/screenshots/ema2wav_gui_example.png" alt="Screenshot of the ema2wav GUI">
+  Figure 1. Screenshot of the ema2wav GUI.
+</p>
+
 * Start the conversion by pressing the `convert` button. 
 
 * Output is produced in the selected output folder. The converted ema2wav files are in the subdirectory called `emawav`. 
