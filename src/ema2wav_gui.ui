@@ -461,7 +461,7 @@
        <item>
         <widget class="QRadioButton" name="butter_lp_btn">
          <property name="text">
-          <string>Butterworth low pass filter</string>
+          <string>Butterworth lowpass filter</string>
          </property>
         </widget>
        </item>
