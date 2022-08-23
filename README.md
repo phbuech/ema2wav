@@ -89,6 +89,9 @@ Use this section, if you want to configure and execute the conversion using the 
   ![Alt text](screenshots/ema2wav_gui_example.png?raw=true "Screenshot of the ema2wav GUI")
   <p align="center">Figure 1. Screenshot of the ema2wav GUI.</p>
 
+
+
+
 * Start the conversion by pressing the `convert` button. 
 
 * Output is produced in the selected output folder. The converted ema2wav files are in the subdirectory called `emawav`. 
