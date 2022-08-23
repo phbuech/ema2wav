@@ -328,7 +328,7 @@
      <rect>
       <x>800</x>
       <y>40</y>
-      <width>231</width>
+      <width>221</width>
       <height>391</height>
      </rect>
     </property>
@@ -538,60 +538,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_15">
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_23">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_13">
-           <item>
-            <widget class="QLineEdit" name="tmin_line_input">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Tmin</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_14">
-           <item>
-            <widget class="QLineEdit" name="tmax_line_input">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Tmax</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="preview_btn">
-         <property name="text">
-          <string>preview</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QVBoxLayout" name="verticalLayout_15"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_16">

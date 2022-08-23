@@ -12,6 +12,7 @@ import numpy as np
 import ema2wav_core
 
 
+
 # function defintion
 def open_EMA_directory():
     #open dialog
@@ -83,7 +84,7 @@ def open_WAVE_directory():
     except:
         err = QMessageBox()
         err.setIcon(QMessageBox.Critical)
-        err.setText("No wave files found")
+        err.setText("No wav files found")
         err.setWindowTitle("Error")
         err.exec_()
 
@@ -98,10 +99,38 @@ def open_output_directory():
 def channel_table_add_row():
     number_of_rows = w.channel_table.rowCount()
     w.channel_table.insertRow(number_of_rows)
+    num_of_channels = w.ema_channel_info.text()
+    if num_of_channels != "":
+        num_of_channels = int(num_of_channels)
+        
+        channel_options = np.arange(1,num_of_channels+1,1)    
+        comboBox = QComboBox()
+        for i in range(len(channel_options)): comboBox.addItem(str(channel_options[i]))
+                    
+        w.channel_table.setCellWidget(number_of_rows,1,comboBox)
+    
 
 def parameter_table_add_row():
     number_of_rows = w.parameter_table.rowCount()
-    w.parameter_table.insertRow(number_of_rows)
+    num_of_channels = w.channel_table.rowCount()
+    if num_of_channels != 0:
+        w.parameter_table.insertRow(number_of_rows)
+        channel_names = [w.channel_table.item(i,0).text() for i in range(num_of_channels)]
+        number_of_names = len(channel_names)
+        for i in range(number_of_names):
+            for ii in range(number_of_names):
+                if channel_names[i] != channel_names[ii] and channel_names[ii]+"+"+channel_names[i] not in channel_names:
+                    channel_names.append(channel_names[i]+"+"+channel_names[ii])
+        params = ema2wav_core.allowed_params
+        channel_name_comboBox = QComboBox()
+        for i in range(len(channel_names)): channel_name_comboBox.addItem(str(channel_names[i]))
+        w.parameter_table.setCellWidget(number_of_rows,0,channel_name_comboBox)
+        params_comboBox = QComboBox()
+        for i in range(len(params)): params_comboBox.addItem(str(params[i]))
+        w.parameter_table.setCellWidget(number_of_rows,1,params_comboBox)
+
+    
+
 
 def channel_table_remove_row():
     current_row = w.channel_table.currentRow()
@@ -191,13 +220,13 @@ def collect_conversion_information():
     # collect channel allocation
     channel_rows = w.channel_table.rowCount()
     tmp_dict = {}
-    for i in range(0,channel_rows): tmp_dict[w.channel_table.item(i,0).text()] = int(w.channel_table.item(i,1).text())
+    for i in range(0,channel_rows): tmp_dict[w.channel_table.item(i,0).text()] = int(w.channel_table.cellWidget(i,1).currentText())
     conversion_dict["channel_allocation"] = tmp_dict
 
     # collect parameters of interest
     parameter_rows = w.parameter_table.rowCount()
     tmp_dict = {}
-    for i in range(0,parameter_rows): tmp_dict[str(i)+"_"+w.parameter_table.item(i,0).text()] = w.parameter_table.item(i,1).text()
+    for i in range(0,parameter_rows): tmp_dict[str(i)+"_"+w.parameter_table.cellWidget(i,0).currentText()] = w.parameter_table.cellWidget(i,1).currentText()
     conversion_dict["parameters_of_interest"] = tmp_dict
 
     # ema filter
@@ -229,31 +258,48 @@ def create_error_list():
     print(model)
     number_of_ema_files = model.rowCount()
     if number_of_ema_files == 0:
-        errors.append("- No EMA files")
+        errors.append("- No EMA files found")
     
     #audio
     model = w.wave_files_view.model()
     number_of_wave_files = model.rowCount()
     if number_of_wave_files == 0:
-        errors.append("- No audio files")
+        errors.append("- No audio files found")
     
     #check channel table
     rows = w.channel_table.rowCount()
     for i in range(0,rows):
-        if w.channel_table.item(i,0) == None or w.channel_table.item(i,1) == None:
+        if w.channel_table.item(i,0) == None or w.channel_table.cellWidget(i,1).currentText() == None:
             errors.append("- Channel allocation error")
-    #check paramter table
+    
+    #check channel allocation
+    rows = w.channel_table.rowCount()
+    channel_names = np.unique(np.array([w.channel_table.item(i,0) for i in range(rows)]),return_counts=True)[1]
+    for i in range(len(channel_names)):
+        if int(channel_names[i]) > 1:
+            errors.append("- Channel allocation error:\n2 or more channels have the same name!")
+            
+    channel_numbers = np.unique(np.array([w.channel_table.cellWidget(i,1).currentText() for i in range(rows)]),return_counts=True)[1]
+    for i in range(len(channel_numbers)):
+        if int(channel_numbers[i]) > 1:
+            errors.append("- Channel allocation error:\n2 or more channels have the same number!")
+            
+
+    #check parameter table
     rows = w.parameter_table.rowCount()
     for i in range(0,rows):
-        if w.parameter_table.item(i,0) == None or w.parameter_table.item(i,1) == None:
-            errors.append("- Paramter of Interest error")
+        if w.parameter_table.cellWidget(i,0).currentText() == None or w.parameter_table.cellWidget(i,1).currentText() == None:
+            errors.append("- Parameter of Interest error")
     
+    channel_names = np.array([w.parameter_table.cellWidget(i,0).currentText() for i in range(rows)])
+    parameter_names = np.array([w.parameter_table.cellWidget(i,1).currentText() for i in range(rows)])
+    
+    for i in range(rows):
+        if parameter_names[i] == "eucl" and "+" not in channel_names[i]:
+            errors.append("- Euclidean distance can not be applied to a single channel!")
+        elif parameter_names[i] != "eucl" and "+" in channel_names[i]:
+            errors.append("- "+parameter_names[i] + " can only be extracted for a single channel!")
 
-    #
-    #
-    # error detection for unallowed parameters must be added
-    #
-    #
 
     if w.output_dir_line_input == None or w.output_dir_line_input.text() == "":
         errors.append("- No output directory selected")
@@ -278,12 +324,21 @@ def conversion():
         errbox.exec_()
     else:
         #collect parameters
+
+        
         conversion_dictionary = collect_conversion_information()
         json_config = json.dumps(conversion_dictionary,indent=4)
         config_output = open(w.output_dir_line_input.text()+"config.json","w")
         config_output.write(json_config)
         config_output.close()
         ema2wav_core.ema2wav_conversion(w.output_dir_line_input.text()+"config.json")
+        
+        msgbox = QMessageBox()
+        msgbox.setIcon(QMessageBox.Information)
+        msgbox.setText("Files successfully converted")
+        msgbox.exec_()
+        
+        
         
 
 def load_config():
@@ -380,10 +435,18 @@ def load_config():
             #add channels to channel table
             tmp = config_data["channel_allocation"]
             tmp_keys = list(tmp.keys())
+            
             for i in range(len(tmp_keys)):
                 w.channel_table.insertRow(i)
                 w.channel_table.setItem(i,0,QTableWidgetItem(str(tmp_keys[i])))
-                w.channel_table.setItem(i,1,QTableWidgetItem(str(tmp[tmp_keys[i]])))    
+                number_of_channels = config_data["ema_channels"]
+                channel_options = np.arange(1,number_of_channels+1,1)  
+                comboBox = QComboBox()
+                for j in range(len(channel_options)): comboBox.addItem(str(channel_options[j]))
+                w.channel_table.setCellWidget(i,1,comboBox)
+                w.channel_table.cellWidget(i,1).setCurrentIndex(config_data["channel_allocation"][tmp_keys[i]]-1)
+                
+                #w.channel_table.setItem(i,1,QTableWidgetItem(str(tmp[tmp_keys[i]])))    
         if "parameters_of_interest" in keys:
             #clear parameter table
             while (w.parameter_table.rowCount() > 0):
@@ -393,11 +456,32 @@ def load_config():
             tmp_keys = list(tmp.keys())
             for i in range(len(tmp_keys)):
                 w.parameter_table.insertRow(i)
-                w.parameter_table.setItem(i,0,QTableWidgetItem(str(tmp_keys[i]).split("_")[1]))
-                w.parameter_table.setItem(i,1,QTableWidgetItem(str(tmp[tmp_keys[i]])))
+                channel_names = list(config_data["channel_allocation"].keys())
+                number_of_names = len(channel_names)
+                for j in range(number_of_names):
+                    for jj in range(number_of_names):
+                        if channel_names[j] != channel_names[jj] and channel_names[jj]+"+"+channel_names[j] not in channel_names:
+                            channel_names.append(channel_names[j]+"+"+channel_names[jj])
+                
+                print(channel_names)
+                channel_name_comboBox = QComboBox()
+                for j in range(len(channel_names)): channel_name_comboBox.addItem(str(channel_names[j]))
+                w.parameter_table.setCellWidget(i,0,channel_name_comboBox)
+                
+                index = channel_name_comboBox.findText(tmp_keys[i].split("_")[1])
+                w.parameter_table.cellWidget(i,0).setCurrentIndex(index)
+                
+                params = ema2wav_core.allowed_params
+                
+                params_comboBox = QComboBox()
+                for j in range(len(params)): params_comboBox.addItem(str(params[j]))
+                w.parameter_table.setCellWidget(i,1,params_comboBox)
+                
+                index = params_comboBox.findText(config_data["parameters_of_interest"][tmp_keys[i]])
+                w.parameter_table.cellWidget(i,1).setCurrentIndex(index)
+                
     except:
         pass
-
 
 
 app = QApplication(sys.argv)
@@ -413,11 +497,9 @@ w.ema_files_view.setModel(QStandardItemModel())
 w.wave_files_view.setModel(QStandardItemModel())
 
 # initialize tables
-w.channel_table.setRowCount(1)
 w.channel_table.setColumnCount(2)
 w.channel_table.setHorizontalHeaderLabels(["Name","Channel"])
 
-w.parameter_table.setRowCount(1)
 w.parameter_table.setColumnCount(2)
 w.parameter_table.setHorizontalHeaderLabels(["Name","Parameter"])
 

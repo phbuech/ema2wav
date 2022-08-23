@@ -11,6 +11,8 @@ import json
 
 #function definitions
 
+allowed_params = ["x","y","x-vel","y-vel","tvel","tvel-deriv","eucl"]
+
 def read_header(path_to_pos_file):
     pos_file = open(path_to_pos_file,mode="rb")
     file_content = pos_file.read()
