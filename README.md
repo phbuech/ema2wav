@@ -67,11 +67,11 @@ Use this section, if you want to configure and execute the conversion using the 
   
   * Channel allocation:
 
-    Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
+    Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. Channel names have to be added manually, while the channel number can be selected in dropdown menu. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
   
   * Parameters of Interest:
 
-    Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. For a list of the possible parameters, see "Manual configuration", `paramters_of_interest`.
+    Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. Channel names can be selected in a dropdown menu and are available depending on the channels specified in the "Channel allocation" table. The allowed parameters are also available in a dropdown menu.
   
   * Enter filter type:
 
@@ -161,8 +161,8 @@ Use this section, if you code the configuration file yourself (for example by mo
     ```
   
   `filter`: JSON object. Configure the filter to smooth the data:
-  * `moving_average` to smooth the data with a rolling mean. Also specify window width, e.g., `"filter" = { "moving_average" : 10 }` for a rolling mean with a window of 10 data points.
-  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" = { "butter_lowpass_filter" : [ 25.0, 4.0 ] }`
+  * `moving_average` to smooth the data with a rolling mean. Also specify window width, e.g., `"filter" : { "moving_average" : 10 }` for a rolling mean with a window of 10 data points.
+  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter_lowpass_filter" : [ 25.0, 4.0 ] }`
   * You can only apply one filter
 
 
