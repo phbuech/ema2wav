@@ -174,6 +174,13 @@ Use this section, if you code the configuration file yourself (for example by mo
   * You can only apply one filter
 
 
+  ![Alt text](screenshots/ema2wav_config_file_example.png?raw=true "Screenshot of the ema2wav GUI")
+  <p align="center">Figure 2. Content of a typical config file for ema2wav.</p>
+
+<br/>
+<br/>
+
+
 ### 2.3 Executing the conversion from command line or as Python module
 
 If you have a config file ready, you can start the conversion from the command line or import the core script as a Python module in your custom code. This section describes these two possibilities. 
