@@ -16,6 +16,8 @@ After starting the application, you will see a GUI for the configuration of the 
 
 *Note: in a prior version of the code we used a few more third-party libraries (such as librosa and pandas). We are continuously developing the code and try to reduce dependencies where possible to increase maintainability.*
 
+*Note: The script version is always the most recent version*
+
 ## 1. Installation instructions
 
 This code has been developed and tested using Python 3.9, we recommend using this version of Python.
