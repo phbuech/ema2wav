@@ -48,7 +48,7 @@ This code has been developed and tested using Python 3.9, we recommend using thi
 
 * Install packages:
 
-  `pip3 install -r requirements.txt`
+  `pip3 install -r src/requirements.txt`
   
 ## 2. Usage
 ### 2.1 Configuration by GUI
