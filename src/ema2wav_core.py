@@ -244,14 +244,18 @@ def export_to_wav(output_file_path,data,fs,s,incl_wav,raw_ema):
         tmp.append(ttmp)
 
     # resample audio to 16kHz
-    for i in range(len(tmp)):
-        new_sample_number = round(len(tmp[i]) * float(16000) / fs) 
-        tmp[i] = signal.resample(tmp[i],new_sample_number)
+    if incl_wav == True and raw_ema == False:
+        for i in range(len(tmp)):
+            new_sample_number = round(len(tmp[i]) * float(16000) / fs) 
+            tmp[i] = signal.resample(tmp[i],new_sample_number)
     output = np.array(tmp)
     output = output.T
     
     #write wav file with 16 kHz samplerate
-    wavfile.write(output_file_path,16000,output)
+    if raw_ema == False:
+        wavfile.write(output_file_path,16000,output)
+    else:
+        wavfile.write(output_file_path,fs,output)
     
     write_channels_to_metadata(output_file_path, list_of_params)
 
@@ -352,6 +356,6 @@ def ema2wav_conversion(path_to_config_json):
         else:
             export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_raw_ema == True:
-            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=ema_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_csv_export == True:
             export_to_csv(path=output_directory+"/emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters,ema_fs=ema_fs)
