@@ -49,7 +49,7 @@ This code has been developed and tested using Python 3.9, we recommend using thi
 * Make sure you are using the pip / pip3 command of your virtual environment:
   - Windows / Mac: `where pip` or `where pip3`
   - Linux: `which pip` or `which pip3`
-  The output has to point to a script in your local environment, e.g. `(...)\ema2wav\ema_env\Scripts\pip3.exe"` or `(...)/ema2wav/ema_env/bin/pip`
+  The output has to point to a script in your local environment, e.g. `(...)\ema2wav\ema_env\Scripts\pip3.exe` or `(...)/ema2wav/ema_env/bin/pip`
 
 * Install packages:
   With the correct pip / pip3 command, execute:
