@@ -121,15 +121,15 @@ Use this section, if you code the configuration file yourself (for example by mo
  
   `export_raw_ema`: boolean (true or false). Specifies whether the EMA data is exported raw, i.e., not interpolated and not scaled.
   
-  `output_directory`: string. This is the output directory for the processed wav files with audio and position data and csv files. Separate subfolders will be created for wav and csv files.
+  `output_directory`: string. This is the output directory for the processed wav files with audio and position data and csv files. Separate subfolders will be created for wav and csv files. This path can be an absolute path or a path relative to the location of the config file.
   
-  `ema_input_directory`: string. Specifies the input directory of the POS-files (EMA data).
+  `ema_input_directory`: string. Specifies the input directory of the POS-files (EMA data). This path can be an absolute path or a path relative to the location of the config file.
   
   `ema_samplerate`: number. Sample rate of the ema data in Hz, e.g., 250.
  
   `ema_channels`: number. Number of channels in the EMA data, e.g., 16.
   
-  `audio_input_directory`: string. Input directory containing the audio (wav) files for the conversion.
+  `audio_input_directory`: string. Input directory containing the audio (wav) files for the conversion. This path can be an absolute path or a path relative to the location of the config file.
   
   `audio_samplerate`: number. Sample rate of the audio in Hz, e.g., 48000.
   

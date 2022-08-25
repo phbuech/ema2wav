@@ -339,11 +339,21 @@ def conversion():
         msgbox.exec_()
         
         
-        
+'''Method to check whether a path in the config file is absolute or not.
+If it is not absolute, it gets converted to an absolute file relative
+to the location of the config file'''
+def check_convert_path(config_dir, the_path):
+    if not os.path.isabs(the_path):
+        the_path = os.path.join(config_dir, the_path)
+        the_path = os.path.abspath(the_path)
+    return(the_path)
+
+
 
 def load_config():
     try:
         path = QFileDialog.getOpenFileName()[0]
+        config_dir = os.path.dirname(path)
     
         #set path to the config file in config_dir_line_input
         w.config_dir_line_input.setText(path)
@@ -366,10 +376,10 @@ def load_config():
         if "ema_channels" in keys:
             w.ema_channel_info.setText(str(config_data["ema_channels"]))
         if "output_directory" in keys:
-            # Convert path to absolute path
-            output_dir_rel = config_data["output_directory"]
-            output_dir_abs = os.path.abspath(output_dir_rel)
-            w.output_dir_line_input.setText(output_dir_abs)
+            # Check if output path is absolute. If not, convert to absolute path.
+            output_dir = config_data["output_directory"]
+            output_dir = check_convert_path(config_dir, output_dir)
+            w.output_dir_line_input.setText(output_dir)
         if "filter" in keys:
             if config_data["filter"] == None:
                 enable_no_filter()
@@ -383,10 +393,10 @@ def load_config():
                     w.butter_lp_cutoff_input.setText(str(int(config_data["filter"]["butter"][0])))
                     w.butter_lp_order_input.setText(str(int(config_data["filter"]["butter"][1])))
         if "ema_input_directory" in keys:
-            # Convert path to absolute path
-            ema_input_dir_rel = config_data["ema_input_directory"]
-            ema_input_dir_abs = os.path.abspath(ema_input_dir_rel)
-            w.ema_directory_line_edit.setText(ema_input_dir_abs)
+            # Check if input path is absolute. If not, convert to absolute path.
+            ema_input_dir = config_data["ema_input_directory"]
+            ema_input_dir = check_convert_path(config_dir, ema_input_dir)
+            w.ema_directory_line_edit.setText(ema_input_dir)
             try:
                 file_list = os.listdir(w.ema_directory_line_edit.text())
                 ema_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".pos")]
@@ -409,10 +419,10 @@ def load_config():
                 err.setWindowTitle("Error")
                 err.exec_()
         if "audio_input_directory" in keys:
-            # Convert path to absolute path
-            audio_input_dir_rel = config_data["audio_input_directory"]
-            audio_input_dir_abs = os.path.abspath(audio_input_dir_rel)
-            w.wave_directory_line_edit.setText(audio_input_dir_abs)
+            # Check if input path is absolute. If not, convert to absolute path.
+            audio_input_dir = config_data["audio_input_directory"]
+            audio_input_dir = check_convert_path(config_dir, audio_input_dir)
+            w.wave_directory_line_edit.setText(audio_input_dir)
             try:
                 file_list = os.listdir(w.wave_directory_line_edit.text())
                 wave_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".wav") or file_list[i].endswith(".WAV")]
