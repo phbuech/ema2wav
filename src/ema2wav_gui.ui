@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1040</width>
-    <height>828</height>
+    <width>1022</width>
+    <height>745</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
+      <x>10</x>
+      <y>10</y>
       <width>261</width>
       <height>581</height>
      </rect>
@@ -147,8 +147,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_6">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>30</y>
+      <x>280</x>
+      <y>10</y>
       <width>261</width>
       <height>581</height>
      </rect>
@@ -275,8 +275,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>30</y>
+      <x>560</x>
+      <y>10</y>
       <width>211</width>
       <height>391</height>
      </rect>
@@ -326,8 +326,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_7">
     <property name="geometry">
      <rect>
-      <x>800</x>
-      <y>30</y>
+      <x>790</x>
+      <y>10</y>
       <width>221</width>
       <height>391</height>
      </rect>
@@ -377,8 +377,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_8">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>461</y>
+      <x>550</x>
+      <y>441</y>
       <width>461</width>
       <height>151</height>
      </rect>
@@ -492,8 +492,8 @@
    <widget class="QWidget" name="horizontalLayoutWidget_13">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>630</y>
+      <x>10</x>
+      <y>600</y>
       <width>1001</width>
       <height>116</height>
      </rect>
@@ -615,16 +615,6 @@
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1040</width>
-     <height>30</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
