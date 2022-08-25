@@ -366,7 +366,10 @@ def load_config():
         if "ema_channels" in keys:
             w.ema_channel_info.setText(str(config_data["ema_channels"]))
         if "output_directory" in keys:
-            w.output_dir_line_input.setText(config_data["output_directory"])
+            # Convert path to absolute path
+            output_dir_rel = config_data["output_directory"]
+            output_dir_abs = os.path.abspath(output_dir_rel)
+            w.output_dir_line_input.setText(output_dir_abs)
         if "filter" in keys:
             if config_data["filter"] == None:
                 enable_no_filter()
@@ -380,7 +383,10 @@ def load_config():
                     w.butter_lp_cutoff_input.setText(str(int(config_data["filter"]["butter"][0])))
                     w.butter_lp_order_input.setText(str(int(config_data["filter"]["butter"][1])))
         if "ema_input_directory" in keys:
-            w.ema_directory_line_edit.setText(config_data["ema_input_directory"])
+            # Convert path to absolute path
+            ema_input_dir_rel = config_data["ema_input_directory"]
+            ema_input_dir_abs = os.path.abspath(ema_input_dir_rel)
+            w.ema_directory_line_edit.setText(ema_input_dir_abs)
             try:
                 file_list = os.listdir(w.ema_directory_line_edit.text())
                 ema_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".pos")]
@@ -403,7 +409,10 @@ def load_config():
                 err.setWindowTitle("Error")
                 err.exec_()
         if "audio_input_directory" in keys:
-            w.wave_directory_line_edit.setText(config_data["audio_input_directory"])
+            # Convert path to absolute path
+            audio_input_dir_rel = config_data["audio_input_directory"]
+            audio_input_dir_abs = os.path.abspath(audio_input_dir_rel)
+            w.wave_directory_line_edit.setText(audio_input_dir_abs)
             try:
                 file_list = os.listdir(w.wave_directory_line_edit.text())
                 wave_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".wav") or file_list[i].endswith(".WAV")]
