@@ -135,49 +135,72 @@ def derivation(data,ema_fs,order):
    
 
 def extract_parameters_of_interest(data,poi,ema_fs):
+
     # initialize results dictionary
     ext_param_data = {}
     
-    list_of_poi = list(poi.keys())
+    poi_sensors = list(poi.keys())
 
-    for i in range(len(list_of_poi)):
-        if len(list_of_poi[i].split("+")) == 1:
-            if poi[list_of_poi[i]] == "x" or poi[list_of_poi[i]] == "y":
-                channel_name = list_of_poi[i].split("_")[1]
-                ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = data[channel_name+"_"+poi[list_of_poi[i]]]
-            elif poi[list_of_poi[i]] == "x-vel" or poi[list_of_poi[i]] == "y-vel":
-                channel_name = list_of_poi[i].split("_")[1]
-                dimension = poi[list_of_poi[i]].split("-")[0]
-                ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = derivation(data[channel_name+"_"+dimension],ema_fs=ema_fs,order=1)
-            elif poi[list_of_poi[i]] == "x-acc" or poi[list_of_poi[i]] == "y-acc":
-                channel_name = list_of_poi[i].split("_")[1]
-                dimension = poi[list_of_poi[i]].split("-")[0]
-                ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = derivation(data[channel_name+"_"+dimension],ema_fs=ema_fs,order=2)
-            elif poi[list_of_poi[i]] == "tvel":
-                channel_name = list_of_poi[i].split("_")[1]
-                tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
-                tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
-                ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2)
-            elif poi[list_of_poi[i]] == "tvel-deriv":
-                channel_name = list_of_poi[i].split("_")[1]
+    for i in range(len(poi_sensors)):
+
+        # A "parameter of interest" (poi) consists of two parts:
+        # 1) the sensor with a number in front of it, e.g., "2_ttip"
+        # 2) the dimension of movement, e.g., "y" or "y-vel"
+        current_poi_sensor = poi_sensors[i]
+        current_poi_dimension = poi[current_poi_sensor]
+
+        if len(current_poi_sensor.split("+")) == 1:
+
+            # position (x, y, or z)
+            if len(current_poi_dimension) == 1:
+                channel_name = current_poi_sensor.split("_")[1]
+                ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = data[channel_name+"_"+current_poi_dimension]
+
+            # velocity and tangential velocity
+            elif current_poi_dimension.endswith("vel"):
+
+                # tangential velocity of x and y dimension
+                if current_poi_dimension == "tvel":
+                    channel_name = current_poi_sensor.split("_")[1]
+                    tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
+                    tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
+                    ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2)
+
+                # regular velocity one dimension
+                else:
+                    channel_name = current_poi_sensor.split("_")[1]
+                    dimension = current_poi_dimension.split("-")[0]
+                    ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = derivation(data[channel_name+"_"+dimension],ema_fs=ema_fs,order=1)
+
+            # acceleration (2nd derivative of position)
+            elif current_poi_dimension.endswith("acc"):
+                channel_name = current_poi_sensor.split("_")[1]
+                dimension = current_poi_dimension.split("-")[0]
+                ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = derivation(data[channel_name+"_"+dimension],ema_fs=ema_fs,order=2)
+
+            # derivative of tangential velocity of x and y
+            elif current_poi_dimension == "tvel-deriv":
+                channel_name = current_poi_sensor.split("_")[1]
                 tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
                 tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
                 tvel = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2)
-                ext_param_data[list_of_poi[i]+"_"+poi[list_of_poi[i]]] = derivation(data=tvel,ema_fs=ema_fs,order=1)
+                ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = derivation(data=tvel,ema_fs=ema_fs,order=1)
 
-        elif len(list_of_poi[i].split("+")) == 2:
+        # If the definition contains a plus, the euclidean distance of two sensor is demanded
+        # e.g., "0_ulip+llip"
+        elif len(current_poi_sensor.split("+")) == 2:
 
             # euclidean distance between two sensors
-            if poi[list_of_poi[i]] == "eucl":
-                ext_param_data[list_of_poi[i] + "_" + poi[list_of_poi[i]]] = calculate_euclidean_distance(list_of_poi[i], data)
+            if current_poi_dimension == "eucl":
+                ext_param_data[current_poi_sensor + "_" + current_poi_dimension] = calculate_euclidean_distance(current_poi_sensor, data)
 
             # velocity of euclidean distance between two sensors
-            elif poi[list_of_poi[i]] == "eucl-vel":
-                ext_param_data[list_of_poi[i] + "_" + poi[list_of_poi[i]]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 1)
+            elif current_poi_dimension == "eucl-vel":
+                ext_param_data[current_poi_sensor + "_" + current_poi_dimension] = get_eucl_derivative(current_poi_sensor, data, ema_fs, 1)
             
             # acceleration of euclidean distance between two sensors
-            elif poi[list_of_poi[i]] == "eucl-acc":
-                ext_param_data[list_of_poi[i]+ "_" + poi[list_of_poi[i]]] = get_eucl_derivative(list_of_poi[i], data, ema_fs, 2)
+            elif current_poi_dimension == "eucl-acc":
+                ext_param_data[current_poi_sensor+ "_" + current_poi_dimension] = get_eucl_derivative(current_poi_sensor, data, ema_fs, 2)
 
     return ext_param_data
 
