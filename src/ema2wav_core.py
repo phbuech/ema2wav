@@ -82,7 +82,7 @@ def extract_ema_data(data,ema_channels,sample_order):
     ext_data = {}
     for i in range(len(channel_names)): ext_data[channel_names[i]+"_x"] = []
     for i in range(len(channel_names)): ext_data[channel_names[i]+"_y"] = []
-
+    for i in range(len(channel_names)): ext_data[channel_names[i]+"_z"] = []
 
     for sample_idx in range(len(data)):
         sample = data[sample_idx]
@@ -94,10 +94,12 @@ def extract_ema_data(data,ema_channels,sample_order):
             channel_number = ema_channels[channel_names[channel_name_idx]]
             this_channel_x_sample = sample[channel_number-1,sample_order["x"]]
             this_channel_y_sample = sample[channel_number-1,sample_order["y"]]
+            this_channel_z_sample = sample[channel_number-1,sample_order["z"]]
 
             # add values
             ext_data[channel_names[channel_name_idx]+"_x"].append(this_channel_x_sample)
             ext_data[channel_names[channel_name_idx]+"_y"].append(this_channel_y_sample)
+            ext_data[channel_names[channel_name_idx]+"_z"].append(this_channel_z_sample)
 
     return ext_data
 
