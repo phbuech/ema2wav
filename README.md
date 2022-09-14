@@ -151,14 +151,14 @@ Use this section, if you code the configuration file yourself (for example by mo
      ```
    `parameters_of_interest`: JSON object. The parameters you would like to include in the converted wav file. Specify pairs the EMA-channel and the motion parameter, e.g. `"0_ttip" : "y"` converts the y-dimension of the tongue tip channel (make sure you use the names from "channel_allocation" above). Important notes:
    * use a unique number and underscore before the channel name (first element of pair), e.g. "0_ttip".
-   * "x" or "y" choose the position dimension (horizontal or vertical)
+   * "x", "y", "z" choose the position dimension. From the perspective of the speaker, x denotes the front-back dimension, y denotes the high-low dimension, and z denotes the "right-left" dimension
    * "-vel" chooses the velocity (1st derivative), e.g., "y-vel" chooses the velocity of the vertical dimension.
    * "-acc" chooses the acceleration (2st derivative), e.g., "y-acc" chooses the acceleration of the vertical dimension.
-   * "tvel" chooses the tangential velocity of the parameter.
-   * "tvel-deriv" chooses the first derivative of the tangential velocity of the parameter.
-   * "eucl" chooses the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip".
-   * "eucl-vel" chooses the velocity of the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip-vel".
-   * "eucl-acc" chooses the acceleration of the euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip-acc".
+   * "tvel" chooses the tangential velocity of a parameter's x and y values.
+   * "tvel-deriv" chooses the first derivative of the tangential velocity of the parameter's x and y values.
+   * "eucl" chooses the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip".
+   * "eucl-vel" chooses the velocity of the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip-vel".
+   * "eucl-acc" chooses the acceleration of the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip-acc".
    
    An example:
    
