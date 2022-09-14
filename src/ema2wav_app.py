@@ -16,14 +16,22 @@ import ema2wav_core
 # function defintion
 def open_EMA_directory():
     #open dialog
-    path = QFileDialog.getExistingDirectory()
-    #add path of ema file to line
-    w.ema_directory_line_edit.setText(path+"/")
-    # filter file list
     try:
+        path = QFileDialog.getExistingDirectory()
+        #add path of ema file to line
+        w.ema_directory_line_edit.setText(path+"/")
+        # filter file list
+    
         file_list = os.listdir(path)
         ema_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".pos")]
-        ema_files.sort()
+        if len(ema_files) == 0:
+            err = QMessageBox()
+            err.setIcon(QMessageBox.Critical)
+            err.setText("Error")
+            err.setInformativeText("No ema data found")
+            err.setWindowTitle("Error")
+            err.exec_()
+            ema_files.sort()
         
         model =  w.ema_files_view.model()
         # delete rows if any
@@ -40,12 +48,7 @@ def open_EMA_directory():
         w.ema_samplerate_info.setText(str(ema_fs)+" Hz")
         w.ema_channel_info.setText(str(ema_channels))
     except:
-        err = QMessageBox()
-        err.setIcon(QMessageBox.Critical)
-        err.setText("Error")
-        err.setInformativeText("No ema data found")
-        err.setWindowTitle("Error")
-        err.exec_()
+        pass
 
 
 def open_WAVE_directory():
@@ -57,6 +60,12 @@ def open_WAVE_directory():
     try:
         file_list = os.listdir(path)
         wave_files = [file_list[i] for i in range(len(file_list)) if file_list[i].endswith(".wav") or file_list[i].endswith(".WAV")]
+        if len(wave_files) == 0:
+            err = QMessageBox()
+            err.setIcon(QMessageBox.Critical)
+            err.setText("No wav files found")
+            err.setWindowTitle("Error")
+            err.exec_()
         wave_files.sort()
         
         model = w.wave_files_view.model()
@@ -82,11 +91,7 @@ def open_WAVE_directory():
         w.wave_samplerate_info.setText(str(wave_fs) + " Hz")
         
     except:
-        err = QMessageBox()
-        err.setIcon(QMessageBox.Critical)
-        err.setText("No wav files found")
-        err.setWindowTitle("Error")
-        err.exec_()
+        pass
 
 def open_output_directory():
     path = QFileDialog.getExistingDirectory()
