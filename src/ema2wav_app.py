@@ -302,7 +302,8 @@ def create_error_list():
     for i in range(rows):
         if parameter_names[i] == "eucl" and "+" not in channel_names[i]:
             errors.append("- Euclidean distance can not be applied to a single channel!")
-        elif parameter_names[i] != "eucl" and "+" in channel_names[i]:
+        elif parameter_names[i].startswith("eucl") == False and "+" in channel_names[i]:
+            print(parameter_names[i],channel_names[i])
             errors.append("- "+parameter_names[i] + " can only be extracted for a single channel!")
 
 
