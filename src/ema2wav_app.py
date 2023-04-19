@@ -260,7 +260,7 @@ def create_error_list():
 
     #EMA
     model = w.ema_files_view.model()
-    print(model)
+    #print(model)
     number_of_ema_files = model.rowCount()
     if number_of_ema_files == 0:
         errors.append("- No EMA files found")
@@ -300,10 +300,10 @@ def create_error_list():
     parameter_names = np.array([w.parameter_table.cellWidget(i,1).currentText() for i in range(rows)])
     
     for i in range(rows):
-        if parameter_names[i] == "eucl" and "+" not in channel_names[i]:
+        if parameter_names[i] in ["eucl","eucl3D"] and "+" not in channel_names[i] or parameter_names[i] in ["distX","distY","distZ"] and "+" not in channel_names[i]:
             errors.append("- Euclidean distance can not be applied to a single channel!")
-        elif parameter_names[i].startswith("eucl") == False and "+" in channel_names[i]:
-            print(parameter_names[i],channel_names[i])
+        elif parameter_names[i] not in ["eucl","eucl3D","distX","distY","distZ"] and "+" in channel_names[i]:
+            #print(parameter_names[i],channel_names[i])
             errors.append("- "+parameter_names[i] + " can only be extracted for a single channel!")
 
 

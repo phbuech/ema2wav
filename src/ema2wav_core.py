@@ -11,7 +11,7 @@ import json
 
 #function definitions
 
-allowed_params = ["x","y","z","x-vel","y-vel","z-vel","tvel","tvel-deriv","eucl","eucl-vel","eucl-acc"]
+allowed_params = ["x","y","z","x-vel","y-vel","z-vel","x-acc","y-acc","z-acc","tvel","tvel-deriv","eucl","eucl3D","distX","distY","distZ","eucl-vel","eucl-acc"]
 
 def read_header(path_to_pos_file):
     pos_file = open(path_to_pos_file,mode="rb")
@@ -140,7 +140,7 @@ def extract_parameters_of_interest(data,poi,ema_fs):
 
     # initialize results dictionary
     ext_param_data = {}
-    
+    #print(poi)
     poi_sensors = list(poi.keys())
 
     for i in range(len(poi_sensors)):
@@ -196,6 +196,11 @@ def extract_parameters_of_interest(data,poi,ema_fs):
             if current_poi_dimension == "eucl":
                 ext_param_data[current_poi_sensor + "_" + current_poi_dimension] = calculate_euclidean_distance(current_poi_sensor, data)
 
+            # euclidean distance between two sensors and 3 dimensions
+            elif current_poi_dimension == "eucl3D":
+                ext_param_data[current_poi_sensor + "_" + current_poi_dimension] = calculate_euclidean_distance3D(current_poi_sensor, data)
+
+
             # velocity of euclidean distance between two sensors
             elif current_poi_dimension == "eucl-vel":
                 ext_param_data[current_poi_sensor + "_" + current_poi_dimension] = get_eucl_derivative(current_poi_sensor, data, ema_fs, 1)
@@ -204,7 +209,26 @@ def extract_parameters_of_interest(data,poi,ema_fs):
             elif current_poi_dimension == "eucl-acc":
                 ext_param_data[current_poi_sensor+ "_" + current_poi_dimension] = get_eucl_derivative(current_poi_sensor, data, ema_fs, 2)
 
+            # horizontal distance
+            elif current_poi_dimension == "distX":
+                ext_param_data[current_poi_sensor+ "_" + current_poi_dimension] = calculate_distance(current_poi_sensor, data, "x")
+
+            # vertical distance
+            elif current_poi_dimension == "distY":
+                ext_param_data[current_poi_sensor+ "_" + current_poi_dimension] = calculate_distance(current_poi_sensor, data, "y")
+
+            # lateral distance
+            elif current_poi_dimension == "distZ":
+                ext_param_data[current_poi_sensor+ "_" + current_poi_dimension] = calculate_distance(current_poi_sensor, data, "z")
+
     return ext_param_data
+
+def calculate_distance(parameter_of_interest,data,dimension):
+    articulators = parameter_of_interest.split("_")[1]
+    articulator1, articulator2 = articulators.split("+")
+    articulator1_dim = data[articulator1+"_"+dimension]
+    articulator2_dim = data[articulator2+"_"+dimension]
+    return np.array([ articulator1_dim[j] - articulator2_dim[j] for j in range(len(articulator1_dim))])
 
 def calculate_euclidean_distance(parameter_of_interest, data):
     articulators = parameter_of_interest.split("_")[1]
@@ -214,6 +238,17 @@ def calculate_euclidean_distance(parameter_of_interest, data):
     articulator2_x = data[articulator2+"_x"]
     articulator2_y = data[articulator2+"_y"]
     return np.array([np.sqrt((articulator1_x[j]-articulator2_x[j])**2+(articulator1_y[j]-articulator2_y[j])**2) for j in range(len(articulator1_x))] )
+
+def calculate_euclidean_distance3D(parameter_of_interest, data):
+    articulators = parameter_of_interest.split("_")[1]
+    articulator1, articulator2 = articulators.split("+")
+    articulator1_x = data[articulator1+"_x"]
+    articulator1_y = data[articulator1+"_y"]
+    articulator1_z = data[articulator1+"_z"]
+    articulator2_x = data[articulator2+"_x"]
+    articulator2_y = data[articulator2+"_y"]
+    articulator2_z = data[articulator2+"_z"]
+    return np.array([np.sqrt((articulator1_x[j]-articulator2_x[j])**2+(articulator1_y[j]-articulator2_y[j])**2 + (articulator1_z[j]-articulator2_z[j])**2) for j in range(len(articulator1_x))] )
 
 def get_eucl_derivative(parameter_of_interest, data, ema_fs, order):
     eucl = calculate_euclidean_distance(parameter_of_interest, data)
