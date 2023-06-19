@@ -155,10 +155,10 @@ Use this section, if you code the configuration file yourself (for example by mo
    * "-vel" chooses the velocity (1st derivative), e.g., "y-vel" chooses the velocity of the vertical dimension.
    * "-acc" chooses the acceleration (2st derivative), e.g., "y-acc" chooses the acceleration of the vertical dimension.
    * "tvel" chooses the tangential velocity of a parameter's x and y values.
-   * "tvel-deriv" chooses the first derivative of the tangential velocity of the parameter's x and y values.
-   * "eucl" chooses the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip".
-   * "eucl-vel" chooses the velocity of the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip-vel".
-   * "eucl-acc" chooses the acceleration of the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip-acc".
+   * "tvel-deriv" chooses the first derivative of the tangential velocity of the parameter's x and y values (the result is similar to the acceleration).
+   * "eucl" chooses the euclidean distance of two sensors on the x-y-plane. In this case, you need to specify two channels, e.g. "0_ulip+llip". You can additionally choose the velocity "eucl-vel" and the acceleration "eucl-acc" of this distance.
+   * "eucl3D" chooses the three-dimensional euclidean distance of two sensors. In this case, you need to specify two channels, e.g. "0_ulip+llip". You can additionally choose the velocity "eucl3D-vel" and the acceleration "eucl3D-acc" of this distance.
+   * "distX"/"distY"/"distZ" chooses the distance between two sensors in the front-back (X), high-low (Y) or right-left (Z) dimension. In this case, you need to specify two channels, e.g. "0_ulip+llip". Specify your reference sensor first, then the second sensor to which you want to calculate the distance. (When using the GUI, make sure to add the reference sensor in the channel allocation on the left first, before adding the second sensor. This is not important when working with the script.)
    
    An example:
    
@@ -166,11 +166,13 @@ Use this section, if you code the configuration file yourself (for example by mo
      "parameters_of_interest": {
         "0_ttip": "y",
         "1_ttip": "y-vel",
-        "2_ttip": "tvel",
-        "3_ulip": "y",
-        "4_llip": "y",
-        "5_ulip+llip": "eucl",
-        "6_ulip+llip": "eucl-vel"       
+        "2_ttip": "y-acc",
+        "3_tbo2": "x",
+        "4_tbo2": "tvel",
+        "5_tbo2": "tvel-deriv",
+        "6_ulip+llip": "eucl",
+        "7_ulip+llip": "eucl-vel",
+        "8_ulip+llip": "distY"
       }
     ```
   
