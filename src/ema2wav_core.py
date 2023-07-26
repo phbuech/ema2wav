@@ -83,6 +83,8 @@ def extract_ema_data(data,ema_channels,sample_order):
     for i in range(len(channel_names)): ext_data[channel_names[i]+"_x"] = []
     for i in range(len(channel_names)): ext_data[channel_names[i]+"_y"] = []
     for i in range(len(channel_names)): ext_data[channel_names[i]+"_z"] = []
+    for i in range(len(channel_names)): ext_data[channel_names[i]+"_phi"] = []
+    for i in range(len(channel_names)): ext_data[channel_names[i]+"_theta"] = []
 
     for sample_idx in range(len(data)):
         sample = data[sample_idx]
@@ -90,16 +92,20 @@ def extract_ema_data(data,ema_channels,sample_order):
 
         for channel_name_idx in range(len(channel_names)):
 
-            # get sample values for x and y
+            # get sample values for x,y,z,phi,theta
             channel_number = ema_channels[channel_names[channel_name_idx]]
             this_channel_x_sample = sample[channel_number-1,sample_order["x"]]
             this_channel_y_sample = sample[channel_number-1,sample_order["y"]]
             this_channel_z_sample = sample[channel_number-1,sample_order["z"]]
+            this_channel_phi_sample = sample[channel_number-1,sample_order["phi"]]
+            this_channel_theta_sample = sample[channel_number-1,sample_order["theta"]]
 
             # add values
             ext_data[channel_names[channel_name_idx]+"_x"].append(this_channel_x_sample)
             ext_data[channel_names[channel_name_idx]+"_y"].append(this_channel_y_sample)
             ext_data[channel_names[channel_name_idx]+"_z"].append(this_channel_z_sample)
+            ext_data[channel_names[channel_name_idx]+"_phi"].append(this_channel_phi_sample)
+            ext_data[channel_names[channel_name_idx]+"_theta"].append(this_channel_theta_sample)
 
     return ext_data
 
@@ -154,7 +160,8 @@ def extract_parameters_of_interest(data,poi,ema_fs):
         if len(current_poi_sensor.split("+")) == 1:
 
             # position (x, y, or z)
-            if len(current_poi_dimension) == 1:
+
+            if current_poi_dimension in ["x","y","z","phi","theta"]:
                 channel_name = current_poi_sensor.split("_")[1]
                 ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = data[channel_name+"_"+current_poi_dimension]
 
@@ -409,7 +416,6 @@ def ema2wav_conversion(path_to_config_json):
             extracted_ema_data = smoothing(data=extracted_ema_data, signal_filter=ema_filter, ema_fs=ema_fs)
             
         extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
-        
         if export_audio_ema == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
             export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+wav_file_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
