@@ -11,7 +11,7 @@ import json
 
 #function definitions
 
-allowed_params = ["x","y","z","x-vel","y-vel","z-vel","x-acc","y-acc","z-acc","tvel","tvel-deriv","eucl","eucl3D","distX","distY","distZ","eucl-vel","eucl-acc"]
+allowed_params = ["x","y","z","phi","theta","x-vel","y-vel","z-vel","x-acc","y-acc","z-acc","tvel","tvel-deriv","eucl","eucl3D","distX","distY","distZ","eucl-vel","eucl-acc"]
 
 def read_header(path_to_pos_file):
     pos_file = open(path_to_pos_file,mode="rb")
@@ -385,7 +385,7 @@ def ema2wav_conversion(path_to_config_json):
     
     # adjust sample order
     if ema_device == "AG50x":
-        sample_order = {"x" : 0, "z" : 1, "y" : 2, "phi" : 3, "t" : 4, "rms" : 5, "extra" : 6}
+        sample_order = {"x" : 0, "z" : 1, "y" : 2, "phi" : 3, "theta" : 4, "rms" : 5, "extra" : 6}
 
     # convert each ema file
     for file_idx in range(len(common_files_list)):
