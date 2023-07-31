@@ -57,57 +57,12 @@ This code has been developed and tested using Python 3.9, we recommend using thi
   `pip3 install -r src/requirements.txt`
   
 ## 2. Usage
-### 2.1 Configuration by GUI
 
-Use this section, if you want to configure and execute the conversion using the GUI. You can start the GUI by using the executable files in the `bin` subdirectory of this project or by starting the GUI from the command line. The steps to start the GUI from the command line are documented here:
-
-* Open the console
-* Navigate to the `src` subdirectory of the project. That is where the source code is located.
-* Run the following line to start the GUI:
-  `python3 ema2wav_app.py`
-
-* In order to start the conversion process, enter the following information into the GUI:
-  * Directories of the POS and WAVE files:
+The conversion process needs a configuration file, which can either be manually coded and executed (sections 2.1 and 2.2) or created by a GUI (section 2.3). Irrespective of your preferred option, it is recommended to read the information in section 2.1 first, to gain sufficient understanding of the configuration file. 
   
-    Press the `open EMA directory` and `open WAVE directory` buttons and selected the directories where the POS/WAVE files are located. Lists of these files and general informations will appear.
-  
-  * Channel allocation:
+### 2.1 Manual configuration
 
-    Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. Channel names have to be added manually, while the channel number can be selected in dropdown menu. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
-  
-  * Parameters of Interest:
-
-    Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. Channel names can be selected in a dropdown menu and are available depending on the channels specified in the "Channel allocation" table. The allowed parameters are also available in a dropdown menu.
-  
-  * Enter filter type:
-
-    Select a moving average filter with the number of samples corresponding to the window size, or a Butterworth low pass filter with the cutoff frequency and the order, or none if you do not wish to filter / smooth the data.
-  
-  * Output directory:
- 
-    Select the output directory by pressing the `open` button.
-  
-  * Select export options:
-
-    The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
-
-
-  ![Alt text](screenshots/ema2wav_gui_example.png?raw=true "Screenshot of the ema2wav GUI")
-  <p align="center">Figure 1. Screenshot of the ema2wav GUI.</p>
-
-<br/>
-<br/>
-
-
-* Start the conversion by pressing the `convert` button. 
-
-* Output is produced in the selected output folder. The converted ema2wav files are in the subdirectory called `emawav`. 
-
-* You will also find that a configuration file called `config.json` is created in the output folder. In this file, the configuration produced by the GUI is saved. If you would like to replicate an earlier conversion, you can load this configuration file or a different one from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
-  
-### 2.2 Manual configuration
-
-Use this section, if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own Python script (see below).
+Use this section if you code the configuration file yourself (for example by modifying the config.json found in the project directory) and do not use the GUI to create the configuration. After manual configuration, you can run the conversion from the command line or import the converter as a module into your own Python script (more in section 2.2).
 
 * Edit configuration in the file `config.json` or create your own configuration file as json:
 
@@ -135,7 +90,7 @@ Use this section, if you code the configuration file yourself (for example by mo
   
   `audio_channels`: number. Number of channels in the audio file, e.g., 1.
   
-  `channel_allocation`: JSON object. The AG channels in your pos data. Format follows the sheme `parameter name : channel number`. For  example:
+  `channel_allocation`: JSON object. The AG channels in your pos data. Format follows the sheme `parameter name : channel number`. Note that the parameter names cannot include underscores (e.g. ```r_ear``` would lead to errors in the conversion process). A good example would be:
      ```
      "channel_allocation" : {
         "rear" : 1,
@@ -189,7 +144,7 @@ Use this section, if you code the configuration file yourself (for example by mo
 <br/>
 
 
-### 2.3 Executing the conversion from command line or as Python module
+### 2.2 Executing the conversion from command line or as Python module
 
 If you have a config file ready, you can start the conversion from the command line or import the core script as a Python module in your custom code. This section describes these two possibilities. 
 
@@ -211,15 +166,66 @@ config_file = "/path/to/your/config_file.json"
 ec.ema2wav_conversion(config_file)
 ```
 
+### 2.3 Configuration by GUI
+
+Use this section if you want to configure and execute the conversion using the GUI. Please see section 2.1 for important information on the configuration file. You can start the GUI by using the executable files in the `bin` subdirectory of this project or by starting the GUI from the command line. The steps to start the GUI from the command line are documented here:
+
+* Open the console
+* Navigate to the `src` subdirectory of the project. That is where the source code is located.
+* Run the following line to start the GUI:
+  `python3 ema2wav_app.py`
+
+* In order to start the conversion process, enter the following information into the GUI:
+  * Directories of the POS and WAVE files:
+  
+    Press the `open EMA directory` and `open WAVE directory` buttons and selected the directories where the POS/WAVE files are located. Lists of these files and general informations will appear.
+  
+  * Channel allocation:
+
+    Enter the necessary channels with their names and their number. In order to add a channel, press the `+` button. Channel names have to be added manually, while the channel number can be selected in dropdown menu. If a channel has to be deleted, left-click on the channel and remove it by pressing the `-` button.
+  
+  * Parameters of Interest:
+
+    Enter the parameters you want to extract. The necessary information is 1. the name of the channel as it appears on the "Name" column in the "Channel allocation" table and 2. the parameter. Channel names can be selected in a dropdown menu and are available depending on the channels specified in the "Channel allocation" table. The allowed parameters are also available in a dropdown menu.
+  
+  * Enter filter type:
+
+    Select a moving average filter with the number of samples corresponding to the window size, or a Butterworth low pass filter with the cutoff frequency and the order, or none if you do not wish to filter / smooth the data.
+  
+  * Output directory:
+ 
+    Select the output directory by pressing the `open` button.
+  
+  * Select export options:
+
+    The export options are located above the `convert` button. You can choose between (1) WAVE files including the POS data and the audio signal ("include audio"), (2) WAVE files containing the POS data only ("export raw EMA"), (3) CSV files containing the POS data only. If (1) is selected, the resulting WAVE files have the same samplerate as original audio. If (2) or (3) is selected, the samplerate is the same as in the POS files.
+
+
+  ![Alt text](screenshots/ema2wav_gui_example.png?raw=true "Screenshot of the ema2wav GUI")
+  <p align="center">Figure 1. Screenshot of the ema2wav GUI.</p>
+
+<br/>
+<br/>
+
+
+* Start the conversion by pressing the `convert` button. 
+
+* Output is produced in the selected output folder. The converted ema2wav files are in the subdirectory called `emawav`. 
+
+* You will also find that a configuration file called `config.json` is created in the output folder. In this file, the configuration produced by the GUI is saved. If you would like to replicate an earlier conversion, you can load this configuration file or a different one from your disk and all necessary information is entered into the GUI fields. Open a configuration file by pressing the `load CONFIG` button and select the configuration file.
+
+
+If you encounter difficulties in the GUI usage, please try the manual computation as explained in section 2.1 and 2.2. This way, the error messages can help you figure out what was wrong.
+
 ## 3. Praat tweaks
 
 The audio data and the POS data have different scales ([-1:1] for audio, higher scales for POS data) and this is also present in the WAVE files created by the conversion. As a result, audio or POS tracks can be difficult to identify and playing these files will lead to loud, uncomfortable noise, due to the higher scales of the POS data. In order to ensure a smooth experience when displaying and annotating the data in Praat, be sure to make the following changes in Praat's editor window:
 
 * Mute POS channels.
-  In the editor window, click on "View" and "Mute channels". Then select "ranges" for "channels to mute" and enter the channel numbers of the first and the last POS track
+  In the editor window, click on "View" (or "Sound", depending on your Praat version) and "Mute channels". Then select "ranges" for "channels to mute" and enter the channel numbers of the first and the last POS track
   
 * Modify scaling
-  In the editor window, click on "View" and "Sound scaling". Select "by window and channel" as "Scaling strategy"
+  In the editor window, click on "View" (or "Sound", depending on your Praat version) and "Sound scaling". Select "by window and channel" as "Scaling strategy"
 
 
 ## 4. TODO
