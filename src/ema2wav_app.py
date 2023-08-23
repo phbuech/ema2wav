@@ -300,9 +300,9 @@ def create_error_list():
     parameter_names = np.array([w.parameter_table.cellWidget(i,1).currentText() for i in range(rows)])
     
     for i in range(rows):
-        if parameter_names[i] in ["eucl","eucl3D"] and "+" not in channel_names[i] or parameter_names[i] in ["distX","distY","distZ"] and "+" not in channel_names[i]:
+        if parameter_names[i] in ["eucl","eucl-vel","eucl-acc","eucl3D","eucl3D-vel","eucl3D-acc","distX","distX-vel","distX-acc","distY","distY-vel","distY-acc","distZ","distZ-vel","distZ-acc"] and "+" not in channel_names[i]:
             errors.append("- Euclidean distance can not be applied to a single channel!")
-        elif parameter_names[i] not in ["eucl","eucl3D","distX","distY","distZ"] and "+" in channel_names[i]:
+        elif parameter_names[i] not in ["eucl","eucl-vel","eucl-acc","eucl3D","eucl3D-vel","eucl3D-acc","distX","distX-vel","distX-acc","distY","distY-vel","distY-acc","distZ","distZ-vel","distZ-acc"] and "+" in channel_names[i]:
             #print(parameter_names[i],channel_names[i])
             errors.append("- "+parameter_names[i] + " can only be extracted for a single channel!")
 
