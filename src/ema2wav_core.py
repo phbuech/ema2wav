@@ -7,6 +7,7 @@ from scipy.io import wavfile
 from mutagen.wave import WAVE
 from mutagen.id3 import COMM
 import json
+from tqdm import tqdm
 
 
 #function definitions
@@ -454,10 +455,97 @@ def ema2wav_conversion(path_to_config_json):
         extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
         if export_audio_ema == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
-            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+wav_file_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
+            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+common_files_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
         else:
-            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+common_files_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_raw_ema == True:
-            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+wav_file_list[file_idx],data=extracted_parameters,fs=ema_fs,s=wav_data,incl_wav=False,raw_ema=True)
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+common_files_list[file_idx],data=extracted_parameters,fs=ema_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_csv_export == True:
-            export_to_csv(path=output_directory+"/emacsv/"+wav_file_list[file_idx].split(".")[0]+".csv", data=extracted_parameters,ema_fs=ema_fs)
+            export_to_csv(path=output_directory+"/emacsv/"+common_files_list[file_idx]+".csv", data=extracted_parameters,ema_fs=ema_fs)
+
+def ema2wav_conversion_terminal(path_to_config_json):
+    # load config file
+    json_config_file = open(path_to_config_json)
+    json_config_data = json.load(json_config_file)
+
+    """
+    extract information for the conversion process
+    necessary informations are:
+    - EMA input folder
+    - WAV input folder
+    - Channel allocation
+    - Parameters of interest
+    - filter information
+    - output folder
+    export options:
+    - export_audio_ema
+    - export_to_csv
+    - export_raw_ema
+    """
+
+    ema_input_directory = json_config_data["ema_input_directory"]
+    audio_input_directory = json_config_data["audio_input_directory"]
+    ema_channels = json_config_data["channel_allocation"]
+    poi = json_config_data["parameters_of_interest"]
+    ema_filter = json_config_data["filter"]
+    output_directory = json_config_data["output_directory"]
+
+    export_audio_ema = json_config_data["export_audio+ema"]
+    is_csv_export = json_config_data["export_to_csv"]
+    is_raw_ema = json_config_data["export_raw_ema"]
+
+    # create emawav output folder
+    emawav_path = output_directory + "/emawav/"
+    create_folder(emawav_path)
+    #create raw ema folder if necessary
+    emawav_raw_path = output_directory + "/raw_ema/"
+    if is_raw_ema: create_folder(emawav_raw_path)
+    emacsv_path = output_directory + "/emacsv/"
+    if is_csv_export: create_folder(emacsv_path)
+
+    # get list of files
+    ema_file_list = get_file_list(ema_input_directory,"ema")
+    wav_file_list = get_file_list(audio_input_directory,"audio")
+
+    # get device information
+    ema_fs, ema_num_of_channels, ema_device = read_header(ema_input_directory+"/"+ema_file_list[0])
+
+    common_files_list = get_common_files(wav_files=wav_file_list,ema_files=ema_file_list)
+
+    # adjust sample order
+    if ema_device == "AG50x":
+        sample_order = {"x" : 0, "z" : 1, "y" : 2, "phi" : 3, "theta" : 4, "rms" : 5, "extra" : 6}
+
+    # convert each ema file
+    filelist = tqdm(common_files_list)
+    for file_name in filelist:
+        filelist.set_description("processing file: "+file_name,refresh=True)
+        #print("processing file: ",file_name)
+        # read wave file
+        wav_fs, wav_data = wavfile.read(audio_input_directory+"/"+file_name+".wav")
+
+        # normalize audio
+        # the normalized audio will be stored as 32 bit floats (same as ema data))
+        wav_data = np.array((wav_data/np.max(np.abs(wav_data))),dtype=np.float32)
+
+
+
+
+        # read ema file
+        ema_fs, ema_num_of_channels, ema_data = read_pos_file(ema_input_directory+"/"+file_name+".pos")
+        extracted_ema_data = extract_ema_data(data=ema_data, ema_channels=ema_channels, sample_order=sample_order)
+
+        #apply filter (if any)
+        if ema_filter != None:
+            extracted_ema_data = smoothing(data=extracted_ema_data, signal_filter=ema_filter, ema_fs=ema_fs)
+
+        extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
+        if export_audio_ema == True:
+            int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
+            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+file_name,data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
+        else:
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+file_name,data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
+        if is_raw_ema == True:
+            export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+file_name,data=extracted_parameters,fs=ema_fs,s=wav_data,incl_wav=False,raw_ema=True)
+        if is_csv_export == True:
+            export_to_csv(path=output_directory+"/emacsv/"+file_name.split(".")[0]+".csv", data=extracted_parameters,ema_fs=ema_fs)
