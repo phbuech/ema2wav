@@ -135,7 +135,8 @@ Use this section if you code the configuration file yourself (for example by mod
   `filter`: JSON object. Configure the filter to smooth the data:
   * `moving_average` to smooth the data with a rolling mean. Also specify window width, e.g., `"filter" : { "moving_average" : 10 }` for a rolling mean with a window of 10 data points.
   * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter_lowpass_filter" : [ 25.0, 4.0 ] }`
-  * You can only apply one filter
+  * You can only apply one filter.
+  * If you do not want to smooth your data, you specify `"filter" : null`.
 
 
   ![Alt text](screenshots/ema2wav_config_file_example.png?raw=true "Screenshot of the ema2wav GUI")
