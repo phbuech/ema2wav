@@ -251,6 +251,10 @@ The audio data and the POS data have different scales ([-1:1] for audio, higher 
 
 This work has benefited/partially benefited from a government grant managed by the Agence Nationale de la Recherche under the "Investissements d'Avenir" programme with the reference ANR-10-LABX-0083 (contributing to the IdEx University of Paris - ANR-18-IDEX-0001, LABEX-EFL) and by the German Research Foundation (DFG) as part of the SFB1252 “Prominence in Language” (Project-ID 281511265), project A04 “Dynamic modelling of prosodic prominence” at the University of Cologne. 
 
+## 6. How to cite
+If you want to cite our work in you publications, please use the following reference:<br/>
+
+* Buech, P., Roessig, S., Pagel, L., Muecke, D., Hermes, A. (2022) ema2wav: doing articulation by Praat. Proc. Interspeech 2022, 1352-1356, doi: 10.21437/Interspeech.2022-10813
 
 
 
