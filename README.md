@@ -146,8 +146,6 @@ Use this section if you code the configuration file yourself (for example by mod
   * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter" : [ 25.0, 4.0 ] }`
   * You can only apply one filter.
   * If you do not want to smooth your data, you specify `"filter" : null`.
->>>>>>> e98f92fe90278ca2cb65be1e2285fc14a9124bc3
->>>>>>> Stashed changes
 
 
   ![Alt text](screenshots/ema2wav_config_file_example.png?raw=true "Screenshot of the ema2wav GUI")
