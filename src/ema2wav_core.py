@@ -113,6 +113,16 @@ def extract_ema_data(data,ema_channels,sample_order):
 def mean_filter(data,N):
     return np.convolve(data,np.ones(N)/N,mode="same")
 
+def resample_data(data, ema_fs, new_fs):
+    x = np.linspace(0,len(data)/ema_fs,len(data))
+    return signal.resample(x=data,num=round(x[-1]*new_fs))
+
+def savgol_filter(data, window, ema_fs, order=3):
+    window_length = round(window*ema_fs)
+    if (window_length % 2) == 0:
+        window_length += 1
+    return signal.savgol_filter(x=data, window_length=window_length,polyorder=3)
+
 def butter_lowpass(cutoff, nyq_freq, order=4):
     normal_cutoff = float(cutoff) / nyq_freq
     b, a = signal.butter(order, normal_cutoff, btype='lowpass')
@@ -131,6 +141,10 @@ def smoothing(data,signal_filter,ema_fs):
         for i in range(len(data)): data[list(data.keys())[i]] = butter_lowpass_filter(data=data[list(data.keys())[i]], cutoff_freq=signal_filter["butter"][0], nyq_freq=ema_fs/2, order=signal_filter["butter"][1])
     elif filter_type == "moving_average":
         for i in range(len(data)): data[list(data.keys())[i]] = mean_filter(data=data[list(data.keys())[i]], N=signal_filter["moving_average"])
+    elif filter_type == "resample":
+        for i in range(len(data)): data[list(data.keys())[i]] = resample_data(data=data[list(data.keys())[i]], ema_fs = ema_fs, new_fs = signal_filter["resample"])
+    elif filter_type == "savgol":
+        for i in range(len(data)): data[list(data.keys())[i]] = savgol_filter(data=data[list(data.keys())[i]], ema_fs = ema_fs, window=signal_filter["savgol"][0],order=signal_filter["savgol"][1])
     return data
 
 def derivation(data,ema_fs,order):
@@ -300,8 +314,11 @@ def get_eucl3D_derivative(parameter_of_interest, data, ema_fs, order):
     return (eucl_deriv)
 
 def interpolate_data(data,s,wav_fs,ema_fs):
+
     interpolated_data = {}
     list_of_params = list(data.keys())
+
+
     for i in range(len(list_of_params)):
         tmp = data[list_of_params[i]]
         ema_x = np.linspace(0,len(tmp)/ema_fs,num=len(tmp))
@@ -335,11 +352,22 @@ def write_channels_to_metadata(output_file_path, selected_params):
 
 
 def export_to_wav(output_file_path,data,fs,s,incl_wav,raw_ema):
+
+    list_of_params = list(data.keys())
+
+    if len(s) < len(data[list_of_params[0]]):
+        sample_difference = int(np.abs( len(s) - len(data[list_of_params[0]]) ))
+        additional_samples = np.repeat(0,sample_difference).tolist()
+        s = np.array(s.tolist() + additional_samples)
+    elif len(s) > len(data[list_of_params[0]]):
+        s = s[:len(data[list_of_params[0]])]
+
+
     if incl_wav == True:
         tmp = [s]
     else:
         tmp = []
-    list_of_params = list(data.keys())
+
     for i in range(len(list_of_params)):
         if raw_ema == False:
                 ttmp = data[list_of_params[i]]  
@@ -347,11 +375,14 @@ def export_to_wav(output_file_path,data,fs,s,incl_wav,raw_ema):
             ttmp = data[list_of_params[i]]
         tmp.append(ttmp)
 
+
     # resample audio to 16kHz
     if incl_wav == True and raw_ema == False:
         for i in range(len(tmp)):
             new_sample_number = round(len(tmp[i]) * float(16000) / fs) 
             tmp[i] = signal.resample(tmp[i],new_sample_number)
+
+
     output = np.array(tmp)
     output = output.T
     
