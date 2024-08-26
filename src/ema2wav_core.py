@@ -486,7 +486,7 @@ def ema2wav_conversion(path_to_config_json):
         extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
         if export_audio_ema == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
-            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+common_files_list[file_idx],data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
+            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+common_files_list[file_idx]+".wav",data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
         else:
             export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+common_files_list[file_idx],data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_raw_ema == True:
@@ -573,7 +573,7 @@ def ema2wav_conversion_terminal(path_to_config_json):
         extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
         if export_audio_ema == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
-            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+file_name,data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
+            export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+file_name+".wav",data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
         else:
             export_to_wav(output_file_path=output_directory+"/raw_ema/emawav_"+file_name,data=extracted_parameters,fs=wav_fs,s=wav_data,incl_wav=False,raw_ema=True)
         if is_raw_ema == True:
