@@ -134,16 +134,9 @@ Use this section if you code the configuration file yourself (for example by mod
   
   `filter`: JSON object. Configure the filter to smooth the data:
   * `moving_average` to smooth the data with a rolling mean. Also specify window width, e.g., `"filter" : { "moving_average" : 10 }` for a rolling mean with a window of 10 data points.
-<<<<<<< Updated upstream
-  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter" : [ 25.0, 4.0 ] }`
-  * You can only apply one filter.
-  * If you do not want to smooth your data, you specify `"filter" : null`.
-=======
-<<<<<<< HEAD
-  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter" : [ 25.0, 4.0 ] }`
-  * You can only apply one filter
-=======
-  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter" : [ 25.0, 4.0 ] }`
+  * `butter` to smooth the data using a butterworth filter. Also specify the cutoff frequency and order, e.g., `"filter" : { "butter" : [ 25.0, 4.0 ] }`.
+  * `resample` to transform the sampling rate of your data. When resampling to lower frequencies, the data is usually smoothed. Specify the new sampling rate, e.g. `"filter" : { "resample" : 200 }`.
+  * `savgol` to use a Savitzky-Golay filter based on polynomial regression. Also specify the window length and order of the polynome, e.g. `"filter" : { "savgol" : [ 0.1, 3 ] }` (where 0.1 indicates a window of 100 ms). 
   * You can only apply one filter.
   * If you do not want to smooth your data, you specify `"filter" : null`.
 
