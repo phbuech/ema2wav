@@ -190,6 +190,15 @@ def extract_parameters_of_interest(data,poi,ema_fs):
                     tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
                     ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2)
 
+                # tangential velocity of all dimensions
+                elif current_poi_dimension == "tvel3d":
+                    channel_name = current_poi_sensor.split("_")[1]
+                    tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
+                    tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
+                    tmp_data_z_vel = derivation(data=data[channel_name+"_z"],ema_fs=ema_fs,order=1)
+                    ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2 + tmp_data_z_vel**2)
+
+
                 # regular velocity one dimension
                 else:
                     channel_name = current_poi_sensor.split("_")[1]
