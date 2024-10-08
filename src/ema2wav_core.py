@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 #function definitions
 
-allowed_params = ["x","y","z","phi","theta","x-vel","y-vel","z-vel","x-acc","y-acc","z-acc","tvel","tvel-deriv","eucl","eucl-vel","eucl-acc","eucl3D","eucl3D-vel","eucl3D-acc","distX","distX-vel","distX-acc","distY","distY-vel","distY-acc","distZ","distZ-vel","distZ-acc"]
+allowed_params = ["x","y","z","phi","theta","x-vel","y-vel","z-vel","x-acc","y-acc","z-acc","tvel","tvel3d","tvel-deriv","eucl","eucl-vel","eucl-acc","eucl3D","eucl3D-vel","eucl3D-acc","distX","distX-vel","distX-acc","distY","distY-vel","distY-acc","distZ","distZ-vel","distZ-acc"]
 
 def read_header(path_to_pos_file):
     pos_file = open(path_to_pos_file,mode="rb")
