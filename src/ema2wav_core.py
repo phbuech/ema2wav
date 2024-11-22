@@ -175,35 +175,30 @@ def extract_parameters_of_interest(data,poi,ema_fs):
         if len(current_poi_sensor.split("+")) == 1:
 
             # position (x, y, or z)
-
             if current_poi_dimension in ["x","y","z","phi","theta"]:
                 channel_name = current_poi_sensor.split("_")[1]
                 ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = data[channel_name+"_"+current_poi_dimension]
 
             # velocity and tangential velocity
             elif current_poi_dimension.endswith("vel"):
-
                 # tangential velocity of x and y dimension
                 if current_poi_dimension == "tvel":
                     channel_name = current_poi_sensor.split("_")[1]
                     tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
                     tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
                     ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2)
-
-                # tangential velocity of all dimensions
-                elif current_poi_dimension == "tvel3d":
-                    channel_name = current_poi_sensor.split("_")[1]
-                    tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
-                    tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
-                    tmp_data_z_vel = derivation(data=data[channel_name+"_z"],ema_fs=ema_fs,order=1)
-                    ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2 + tmp_data_z_vel**2)
-
-
                 # regular velocity one dimension
                 else:
                     channel_name = current_poi_sensor.split("_")[1]
                     dimension = current_poi_dimension.split("-")[0]
                     ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = derivation(data[channel_name+"_"+dimension],ema_fs=ema_fs,order=1)
+                            # tangential velocity of all dimensions
+            elif current_poi_dimension == "tvel3d":
+                channel_name = current_poi_sensor.split("_")[1]
+                tmp_data_x_vel = derivation(data=data[channel_name+"_x"],ema_fs=ema_fs,order=1)
+                tmp_data_y_vel = derivation(data=data[channel_name+"_y"],ema_fs=ema_fs,order=1)
+                tmp_data_z_vel = derivation(data=data[channel_name+"_z"],ema_fs=ema_fs,order=1)
+                ext_param_data[current_poi_sensor+"_"+current_poi_dimension] = np.sqrt(tmp_data_x_vel**2 + tmp_data_y_vel**2 + tmp_data_z_vel**2)
 
             # acceleration (2nd derivative of position)
             elif current_poi_dimension.endswith("acc"):
@@ -580,6 +575,7 @@ def ema2wav_conversion_terminal(path_to_config_json):
             extracted_ema_data = smoothing(data=extracted_ema_data, signal_filter=ema_filter, ema_fs=ema_fs)
 
         extracted_parameters = extract_parameters_of_interest(data=extracted_ema_data, poi=poi, ema_fs=ema_fs)
+        #print(list(extracted_parameters.keys()),poi)
         if export_audio_ema == True:
             int_data = interpolate_data(data=extracted_parameters,s=wav_data,wav_fs=wav_fs,ema_fs=ema_fs)
             export_to_wav(output_file_path=output_directory+"/emawav/emawav_"+file_name+".wav",data=int_data,fs=wav_fs,s=wav_data,incl_wav=True,raw_ema=False)
